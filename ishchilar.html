@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>👕 "Urgutni ko'ylaklari" - Ishchilar Kartalari</title>
+    <style>
+        /* Umumiy sahifa sozlamalari */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #03045e;
+        }
+
+        #menu-toggle, #theme-toggle {
+            display: none;
+        }
+
+        /* Header qismi */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 75px;
+            background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-btn {
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            margin-right: 20px;
+            box-shadow: 0 4px 10px rgba(0, 114, 255, 0.3);
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .menu-btn:hover {
+            background: linear-gradient(135deg, #f857a6, #ff5858);
+            transform: scale(1.05);
+        }
+
+        .brand-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-wrapper {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 2px solid #00c6ff;
+            box-shadow: 0 2px 10px rgba(0, 198, 255, 0.5);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #0f2027;
+            flex-shrink: 0;
+        }
+
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.25);
+        }
+
+        .header-title h1 {
+            margin: 0;
+            font-size: 22px;
+            letter-spacing: 0.5px;
+        }
+
+        .header-title p {
+            margin: 3px 0 0 0;
+            color: #cbd5e0;
+            font-size: 13px;
+        }
+
+        .theme-btn {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 9px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .theme-btn:hover {
+            background: #00c6ff;
+            color: #0f2027;
+            border-color: #00c6ff;
+        }
+
+        /* Chap Sidebar */
+        .left-sidebar {
+            position: fixed;
+            top: 75px;
+            left: 0;
+            bottom: 0;
+            width: 260px;
+            background-color: #1a2530;
+            padding: 25px 15px;
+            box-sizing: border-box;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .left-sidebar h3 {
+            color: #a0aec0;
+            font-size: 13px;
+            text-transform: uppercase;
+            margin-top: 0;
+            margin-bottom: 18px;
+            padding-left: 10px;
+            border-bottom: 1px solid #2d3748;
+            padding-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .left-sidebar a {
+            display: block;
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 13px 18px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            background-color: rgba(255, 255, 255, 0.04);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .left-sidebar a:hover {
+            background: linear-gradient(90deg, #00c6ff 0%, #0072ff 100%);
+            color: #ffffff;
+            transform: translateX(8px);
+            border-left: 4px solid #fff;
+            box-shadow: 0 4px 15px rgba(0, 198, 255, 0.4);
+        }
+
+        .left-sidebar a.active {
+            background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(56, 239, 125, 0.3);
+        }
+
+        /* Asosiy qism */
+        .page-wrapper {
+            margin-top: 75px;
+            margin-left: 260px;
+            transition: margin-left 0.3s ease;
+            min-height: calc(100vh - 75px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        #menu-toggle:checked ~ .left-sidebar {
+            transform: translateX(-260px);
+        }
+
+        #menu-toggle:checked ~ .page-wrapper {
+            margin-left: 0;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 35px 45px;
+            background-color: #03045e;
+            color: #ffffff;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .top-description {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .top-description h2 {
+            color: #00e5ff;
+            font-size: 36px;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        /* =========================================================
+           RASMDAGI USLUBGA O'XSHASH 8 TA KARTA (GRID DIZAYN)
+           ========================================================= */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .worker-card {
+            background: linear-gradient(135deg, #1d3557, #111e38);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            border: 2px solid rgba(0, 198, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .worker-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 198, 255, 0.5);
+        }
+
+        .card-img-container {
+            width: 100%;
+            height: 220px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            color: #ffffff;
+        }
+
+        .card-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .worker-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .worker-salary {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #00e5ff;
+        }
+
+        .worker-role {
+            font-size: 14px;
+            color: #90e0ef;
+            margin: 0;
+        }
+
+        /* "+" TUGMASI (DETAILS & SUMMARY) */
+        details {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 10px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: background 0.3s ease;
+        }
+
+        details[open] {
+            background: rgba(0, 198, 255, 0.12);
+            border-color: #00c6ff;
+        }
+
+        summary {
+            font-weight: bold;
+            font-size: 14px;
+            color: #38ef7d;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary::after {
+            content: "+";
+            font-size: 18px;
+            font-weight: bold;
+            background: #00c6ff;
+            color: #03045e;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        details[open] summary::after {
+            transform: rotate(45deg);
+            background: #ff4b2b;
+            color: white;
+        }
+
+        .hidden-details {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 13px;
+            color: #cbd5e0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+            color: white;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .badge-green { background: linear-gradient(135deg, #2b9348, #55a630); }
+        .badge-red { background: linear-gradient(135deg, #d90429, #ef233c); }
+
+        /* TONGGI REJIM SOZLAMALARI */
+        #theme-toggle:checked ~ .page-wrapper .main-content {
+            background-color: #f0f4f8;
+            color: #2d3748;
+        }
+
+        #theme-toggle:checked ~ .page-wrapper .top-description h2 {
+            color: #03045e;
+        }
+
+        #theme-toggle:checked ~ .page-wrapper .worker-card {
+            background: #ffffff;
+            border-color: #cbd5e0;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+
+        #theme-toggle:checked ~ .page-wrapper .worker-name {
+            color: #03045e;
+        }
+
+        #theme-toggle:checked ~ .page-wrapper .worker-role {
+            color: #0077b6;
+        }
+
+        #theme-toggle:checked ~ .page-wrapper .worker-salary {
+            background: #caf0f8;
+            color: #03045e;
+        }
+
+        #theme-toggle:checked ~ .page-wrapper details {
+            background: #f1f5f9;
+            border-color: #cbd5e0;
+        }
+
+        #theme-toggle:checked ~ .page-wrapper .hidden-details {
+            color: #475569;
+            border-top-color: #cbd5e0;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #091118;
+            color: #cbd5e0;
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            font-size: 14px;
+            border-top: 3px solid #00c6ff;
+        }
+
+        .footer-status {
+            color: #38ef7d;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <input type="checkbox" id="menu-toggle">
+    <input type="checkbox" id="theme-toggle">
+
+    <!-- Header qismi -->
+    <header>
+        <div class="header-left">
+            <label for="menu-toggle" class="menu-btn">☰ Menyu</label>
+            <div class="brand-box">
+                <div class="logo-wrapper">
+                    <img src="assets/logo.png" alt="Logotip" class="logo-img">
+                </div>
+                <div class="header-title">
+                    <h1>"Urgutni ko'ylaklari" Korxonasi Veb Tizimi</h1>
+                    <p>Xodimlar va ishchilar paneli</p>
+                </div>
+            </div>
+        </div>
+        <label for="theme-toggle" class="theme-btn">☀️ Tonggi / 🌙 Tungi rejim</label>
+    </header>
+
+    <!-- Chap Sidebar -->
+    <aside class="left-sidebar">
+        <h3>Bo'limlar menyusi</h3>
+        <a href="dashboard.html">Bosh sahifa</a>
+        <a href="omborxona.html">Omborxona</a>
+        <a href="sotuv.html">Sotuv bo'limi</a>
+        <a href="kassa.html">Kassa</a>
+        <a href="buyurtmalar.html">Buyurtmalar</a>
+        <a href="qarz_daftar.html">Qarz daftar</a>
+        <a href="ishchilar.html" class="active">Ishchilar</a>
+    </aside>
+
+    <!-- Asosiy qism -->
+    <div class="page-wrapper">
+        <main class="main-content">
+            
+            <div class="top-description">
+                <h2>Korxona Ishchilari va Xodimlari</h2>
+            </div>
+
+            <!-- 8 Ta Karta Grid Paneli -->
+            <div class="cards-grid">
+                
+                <!-- 1-Karta -->
+                <div class="worker-card">
+                    <div class="card-img-container">
+                        <img src="assets/image1.png" alt="Zarnigor">
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header-row">
+                            <h3 class="worker-name">Zarnigor Xalilova</h3>
+                            <span class="worker-salary">3.5M so'm</span>
+                        </div>
+                        <p class="worker-role">Bolalar sexi bosh tikuvchisi</p>
+                        
+                        <details>
+                            <summary>Qo'shimcha ma'lumot</summary>
+                            <div class="hidden-details">
+                                <span><strong>Tug'ilgan sana:</strong> 12.05.1995</span>
+                                <span><strong>Tel:</strong> +998 93 344 5566</span>
+                                <span><strong>Holati:</strong> <span class="badge badge-green">Faol</span></span>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <!-- 2-Karta -->
+                <div class="worker-card">
+                    <div class="card-img-container">
+                        <img src="assets/image2.png" alt="Madina">
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header-row">
+                            <h3 class="worker-name">Madina Omonova</h3>
+                            <span class="worker-salary">4.0M so'm</span>
+                        </div>
+                        <p class="worker-role">Kattalar ayollar sexi ustasi</p>
+                        
+                        <details>
+                            <summary>Qo'shimcha ma'lumot</summary>
+                            <div class="hidden-details">
+                                <span><strong>Tug'ilgan sana:</strong> 18.09.1992</span>
+                                <span><strong>Tel:</strong> +998 94 555 7788</span>
+                                <span><strong>Holati:</strong> <span class="badge badge-green">Faol</span></span>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <!-- 3-Karta -->
+                <div class="worker-card">
+                    <div class="card-img-container">
+                        <img src="assets/image3.png" alt="Jasur">
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header-row">
+                            <h3 class="worker-name">Jasur Berdiyev</h3>
+                            <span class="worker-salary">4.5M so'm</span>
+                        </div>
+                        <p class="worker-role">Bichuvchi (Texnolog)</p>
+                        
+                        <details>
+                            <summary>Qo'shimcha ma'lumot</summary>
+                            <div class="hidden-details">
+                                <span><strong>Tug'ilgan sana:</strong> 25.03.1990</span>
+                                <span><strong>Tel:</strong> +998 90 123 4567</span>
+                                <span><strong>Holati:</strong> <span class="badge badge-green">Faol</span></span>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <!-- 4-Karta -->
+                <div class="worker-card">
+                    <div class="card-img-container">
+                        <img src="assets/image4.png" alt="Dilfuza">
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header-row">
+                            <h3 class="worker-name">Dilfuza Karimova</h3>
+                            <span class="worker-salary">3.0M so'm</span>
+                        </div>
+                        <p class="worker-role">Qadoqlash bo'limi mutaxassisi</p>
+                        
+                        <details>
+                            <summary>Qo'shimcha ma'lumot</summary>
+                            <div class="hidden-details">
+                                <span><strong>Tug'ilgan sana:</strong> 04.11.1998</span>
+                                <span><strong>Tel:</strong> +998 91 988 7766</span>
+                                <span><strong>Holati:</strong> <span class="badge badge-red">Nofaol</span></span>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <!-- 5-Karta -->
+                <div class="worker-card">
+                    <div class="card-img-container">
+                        <img src="assets/image5.png" alt="Shoxrux">
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header-row">
+                            <h3 class="worker-name">Shoxrux Normurodov</h3>
+                            <span class="worker-salary">3.8M so'm</span>
+                        </div>
+                        <p class="worker-role">Sifat nazoratchisi (OTK)</p>
+                        
+                        <details>
+                            <summary>Qo'shimcha ma'lumot</summary>
+                            <div class="hidden-details">
+                                <span><strong>Tug'ilgan sana:</strong> 14.02.1991</span>
+                                <span><strong>Tel:</strong> +998 90 654 3322</span>
+                                <span><strong>Holati:</strong> <span class="badge badge-green">Faol</span></span>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <!-- 6-Karta -->
+                <div class="worker-card">
+                    <div class="card-img-container">
+                        <img src="assets/image6.png" alt="Gulnora">
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header-row">
+                            <h3 class="worker-name">Gulnora Toshpulatova</h3>
+                            <span class="worker-salary">3.2M so'm</span>
+                        </div>
+                        <p class="worker-role">Dazmollash va qadoqlash ustasi</p>
+                        
+                        <details>
+                            <summary>Qo'shimcha ma'lumot</summary>
+                            <div class="hidden-details">
+                                <span><strong>Tug'ilgan sana:</strong> 30.06.1994</span>
+                                <span><strong>Tel:</strong> +998 93 777 8899</span>
+                                <span><strong>Holati:</strong> <span class="badge badge-green">Faol</span></span>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <!-- 7-Karta -->
+                <div class="worker-card">
+                    <div class="card-img-container">
+                        <img src="assets/image7.png" alt="Otabek">
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header-row">
+                            <h3 class="worker-name">Otabek Safarov</h3>
+                            <span class="worker-salary">3.6M so'm</span>
+                        </div>
+                        <p class="worker-role">Omborchi (Xomashyo)</p>
+                        
+                        <details>
+                            <summary>Qo'shimcha ma'lumot</summary>
+                            <div class="hidden-details">
+                                <span><strong>Tug'ilgan sana:</strong> 19.12.1988</span>
+                                <span><strong>Tel:</strong> +998 91 444 3322</span>
+                                <span><strong>Holati:</strong> <span class="badge badge-green">Faol</span></span>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <!-- 8-Karta -->
+                <div class="worker-card">
+                    <div class="card-img-container">
+                        <img src="assets/image.png" alt="Feruza">
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header-row">
+                            <h3 class="worker-name">Feruza Jumayeva</h3>
+                            <span class="worker-salary">4.8M so'm</span>
+                        </div>
+                        <p class="worker-role">Dizayner-modeler</p>
+                        
+                        <details>
+                            <summary>Qo'shimcha ma'lumot</summary>
+                            <div class="hidden-details">
+                                <span><strong>Tug'ilgan sana:</strong> 05.08.1996</span>
+                                <span><strong>Tel:</strong> +998 94 111 2233</span>
+                                <span><strong>Holati:</strong> <span class="badge badge-green">Faol</span></span>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <div>
+                <span class="footer-status">● Tizim holati: Faol (Online)</span>
+            </div>
+            <div>
+                &copy; 2026 "Urgutni ko'ylaklari" korxonasi. Xodimlar bo'limi.
+            </div>
+            <div>
+                <strong>Dasturchi:</strong> Xalimov Azizjon | Urgut
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>

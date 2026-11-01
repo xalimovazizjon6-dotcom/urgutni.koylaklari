@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>👕 "Urgutni ko'ylaklari" - Sotuv Bo'limi</title>
+    <style>
+        /* Umumiy sahifa sozlamalari */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #03045e;
+        }
+
+        #menu-toggle, #theme-toggle {
+            display: none;
+        }
+
+        /* Header qismi */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 75px;
+            background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-btn {
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            margin-right: 20px;
+            box-shadow: 0 4px 10px rgba(0, 114, 255, 0.3);
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .menu-btn:hover {
+            background: linear-gradient(135deg, #f857a6, #ff5858);
+            transform: scale(1.05);
+        }
+
+        .brand-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-wrapper {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 2px solid #00c6ff;
+            box-shadow: 0 2px 10px rgba(0, 198, 255, 0.5);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #0f2027;
+            flex-shrink: 0;
+        }
+
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.25);
+        }
+
+        .header-title h1 {
+            margin: 0;
+            font-size: 22px;
+            letter-spacing: 0.5px;
+        }
+
+        .header-title p {
+            margin: 3px 0 0 0;
+            color: #cbd5e0;
+            font-size: 13px;
+        }
+
+        .theme-btn {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 9px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .theme-btn:hover {
+            background: #00c6ff;
+            color: #0f2027;
+            border-color: #00c6ff;
+        }
+
+        /* Chap Sidebar */
+        .left-sidebar {
+            position: fixed;
+            top: 75px;
+            left: 0;
+            bottom: 0;
+            width: 260px;
+            background-color: #1a2530;
+            padding: 25px 15px;
+            box-sizing: border-box;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .left-sidebar h3 {
+            color: #a0aec0;
+            font-size: 13px;
+            text-transform: uppercase;
+            margin-top: 0;
+            margin-bottom: 18px;
+            padding-left: 10px;
+            border-bottom: 1px solid #2d3748;
+            padding-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .left-sidebar a {
+            display: block;
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 13px 18px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            background-color: rgba(255, 255, 255, 0.04);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .left-sidebar a:hover {
+            background: linear-gradient(90deg, #00c6ff 0%, #0072ff 100%);
+            color: #ffffff;
+            transform: translateX(8px);
+            border-left: 4px solid #fff;
+            box-shadow: 0 4px 15px rgba(0, 198, 255, 0.4);
+        }
+
+        .left-sidebar a.active {
+            background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(56, 239, 125, 0.3);
+        }
+
+        /* Asosiy qism */
+        .page-wrapper {
+            margin-top: 75px;
+            margin-left: 260px;
+            transition: margin-left 0.3s ease;
+            min-height: calc(100vh - 75px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        #menu-toggle:checked ~ .left-sidebar {
+            transform: translateX(-260px);
+        }
+
+        #menu-toggle:checked ~ .page-wrapper {
+            margin-left: 0;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 35px 45px;
+            background-color: #03045e;
+            color: #ffffff;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .top-description {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .top-description h2 {
+            color: #00e5ff;
+            font-size: 36px;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        /* =========================================================
+           MAHSULOTLAR CARDS (GRID USLUBIDA - #caf0f8 rangda)
+           ========================================================= */
+        .products-section h3 {
+            color: #00e5ff;
+            font-size: 24px;
+            margin-bottom: 25px;
+            border-left: 5px solid #00e5ff;
+            padding-left: 12px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background-color: #caf0f8;
+            color: #1d3557;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 198, 255, 0.4);
+        }
+
+        .product-img-box {
+            width: 100%;
+            height: 220px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #bde0fe;
+        }
+
+        .product-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-prices {
+            margin-top: 12px;
+        }
+
+        .current-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #d90429;
+        }
+
+        .old-price {
+            font-size: 13px;
+            color: #6c757d;
+            text-decoration: line-through;
+            margin-left: 8px;
+        }
+
+        .product-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1d3557;
+            margin: 8px 0;
+            line-height: 1.4;
+            min-height: 40px;
+        }
+
+        .product-sizes {
+            display: flex;
+            gap: 5px;
+            margin: 8px 0;
+            flex-wrap: wrap;
+        }
+
+        .size-badge {
+            background-color: #457b9d;
+            color: white;
+            font-size: 11px;
+            padding: 3px 7px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .order-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #7209b7, #3a0ca3);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .order-btn:hover {
+            background: linear-gradient(135deg, #3a0ca3, #7209b7);
+        }
+
+        /* =========================================================
+           TONGGI REJIM SOZLAMALARI
+           ========================================================= */
+        #theme-toggle:checked ~ .page-wrapper .main-content {
+            background-color: #f0f4f8;
+            color: #2d3748;
+        }
+
+        #theme-toggle:checked ~ .page-wrapper .top-description h2,
+        #theme-toggle:checked ~ .page-wrapper .products-section h3 {
+            color: #03045e;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #091118;
+            color: #cbd5e0;
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            font-size: 14px;
+            border-top: 3px solid #00c6ff;
+        }
+
+        .footer-status {
+            color: #38ef7d;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <input type="checkbox" id="menu-toggle">
+    <input type="checkbox" id="theme-toggle">
+
+    <!-- Header qismi -->
+    <header>
+        <div class="header-left">
+            <label for="menu-toggle" class="menu-btn">☰ Menyu</label>
+            <div class="brand-box">
+                <div class="logo-wrapper">
+                    <img src="assets/logo.png" alt="Logotip" class="logo-img">
+                </div>
+                <div class="header-title">
+                    <h1>"Urgutni ko'ylaklari" Korxonasi Veb Tizimi</h1>
+                    <p>Sotuv va mahsulotlar katalogi paneli</p>
+                </div>
+            </div>
+        </div>
+        <label for="theme-toggle" class="theme-btn">☀️ Tonggi / 🌙 Tungi rejim</label>
+    </header>
+
+    <!-- Chap Sidebar -->
+    <aside class="left-sidebar">
+        <h3>Bo'limlar menyusi</h3>
+        <a href="dashboard.html">Bosh sahifa</a>
+        <a href="omborxona.html">Omborxona</a>
+        <a href="sotuv.html" class="active">Sotuv bo'limi</a>
+        <a href="kassa.html">Kassa</a>
+        <a href="buyurtmalar.html">Buyurtmalar</a>
+        <a href="qarz_daftar.html">Qarz daftar</a>
+        <a href="ishchilar.html">Ishchilar</a>
+    </aside>
+
+    <!-- Asosiy qism -->
+    <div class="page-wrapper">
+        <main class="main-content">
+            
+            <div class="top-description">
+                <h2>Sotuv Bo'limi va Mahsulotlar Vitrini</h2>
+            </div>
+
+            <!-- Mahsulotlar Vitrini (20 ta kartochka) -->
+            <div class="products-section">
+                <h3>Mahsulotlar katalogi (Vitrina)</h3>
+                
+                <div class="products-grid">
+                    
+                    <!-- 1-kartochka -->
+                    <div class="product-card">
+                        <div class="product-img-box">
+                            <img src="assets/rasm1.jpg" alt="Bolalar yozgi paxta ko'ylagi">
+                        </div>
+                        <div class="product-prices"><span class="current-price">85,000 so'm</span><span class="old-price">110,000 so'm</span></div>
+                        <div class="product-title">Bolalar yozgi paxta ko'ylagi (Sifatli)</div>
+                        <div class="product-sizes"><span class="size-badge">S</span><span class="size-badge">M</span><span class="size-badge">L</span></div>
+                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    </div>
+
+                    <!-- 2-kartochka -->
+                    <div class="product-card">
+                        <div class="product-img-box">
+                            <img src="assets/rasm2.jpg" alt="Ayollar bayramona shoyi ko'ylagi">
+                        </div>
+                        <div class="product-prices"><span class="current-price">145,000 so'm</span><span class="old-price">180,000 so'm</span></div>
+                        <div class="product-title">Ayollar bayramona shoyi ko'ylagi</div>
+                        <div class="product-sizes"><span class="size-badge">M</span><span class="size-badge">L</span><span class="size-badge">XL</span></div>
+                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    </div>
+
+                    <!-- 3-kartochka -->
+                    <div class="product-card">
+                        <div class="product-img-box">
+                            <img src="assets/rasm3.jpg" alt="Erkaklar kostyum - shim">
+                        </div>
+                        <div class="product-prices"><span class="current-price">210,000 so'm</span><span class="old-price">250,000 so'm</span></div>
+                        <div class="product-title">Erkaklar kostyum - shim</div>
+                        <div class="product-sizes"><span class="size-badge">XL</span><span class="size-badge">XXL</span><span class="size-badge">XXXL</span></div>
+                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    </div>
+
+                    <!-- 4-kartochka -->
+                    <div class="product-card">
+                        <div class="product-img-box">
+                            <img src="assets/rasm4.jpg" alt="Qizchalar uchun tungi nafis ko'ylak">
+                        </div>
+                        <div class="product-prices"><span class="current-price">75,000 so'm</span><span class="old-price">95,000 so'm</span></div>
+                        <div class="product-title">Qizchalar uchun tungi nafis ko'ylak</div>
+                        <div class="product-sizes"><span class="size-badge">S</span><span class="size-badge">M</span></div>
+                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    </div>
+
+                    <!-- 5-kartochka -->
+                    <div class="product-card">
+                        <div class="product-img-box">
+                            <img src="assets/rasm5.jpg" alt="Ayollar office uslubidagi qora ko'ylak">
+                        </div>
+                        <div class="product-prices"><span class="current-price">160,000 so'm</span><span class="old-price">190,000 so'm</span></div>
+                        <div class="product-title">Ayollar office uslubidagi qora ko'ylak</div>
+                        <div class="product-sizes"><span class="size-badge">M</span><span class="size-badge">L</span><span class="size-badge">XL</span></div>
+                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    </div>
+
+                    <!-- 6-kartochka -->
+                    <div class="product-card">
+                        <div class="product-img-box">
+                            <img src="assets/rasm6.jpg" alt="Bolalar maktab uchun oq ko'ylagi">
+                        </div>
+                        <div class="product-prices"><span class="current-price">125,000 so'm</span><span class="old-price">150,000 so'm</span></div>
+                        <div class="product-title">Bolalar maktab uchun oq ko'ylagi</div>
+                        <div class="product-sizes"><span class="size-badge">S</span><span class="size-badge">M</span><span class="size-badge">L</span></div>
+                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    </div>
+
+                    <!-- 7-kartochka -->
+                    <div class="product-card">
+                        <div class="product-img-box">
+                            <img src="assets/rasm7.png" alt="Ayollar qishki qalin velvet ko'ylagi">
+                        </div>
+                        <div class="product-prices"><span class="current-price">230,000 so'm</span><span class="old-price">270,000 so'm</span></div>
+                        <div class="product-title">Ayollar qishki qalin velvet ko'ylagi</div>
+                        <div class="product-sizes"><span class="size-badge">L</span><span class="size-badge">XL</span><span class="size-badge">XXL</span></div>
+                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    </div>
+
+                    <!-- 8-kartochka -->
+                    <div class="product-card">
+                        <div class="product-img-box">
+                            <img src="assets/rasm8.png" alt="Bolalar sport uslubidagi yorqin ko'ylak">
+                        </div>
+                        <div class="product-prices"><span class="current-price">95,000 so'm</span><span class="old-price">120,000 so'm</span></div>
+                        <div class="product-title">Bolalar sport uslubidagi yorqin ko'ylak</div>
+                        <div class="product-sizes"><span class="size-badge">S</span><span class="size-badge">M</span></div>
+                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    </div>
+
+                    <!-- 9-kartochka -->
+                    <div class="product-card">
+                        <div class="product-img-box">
+                            <img src="assets/rasm9.png" alt="Ayollar atlas va adras ko'ylak">
+                        </div>
+                        <div class="product-prices"><span class="current-price">180,000 so'm</span><span class="old-price">210,000 so'm</span></div>
+                        <div class="product-title">Ayollar atlas va adras qorishmali ko'ylak</div>
+                        <div class="product-sizes"><span class="size-badge">M</span><span class="size-badge">L</span><span class="size-badge">XL</span><span class="size-badge">XXL</span></div>
+                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    </div>
+
+                    <!-- 10-kartochka -->
+                    <div class="product-card">
+                        <div class="product-img-box">
+                            <img src="assets/rasm10.png" alt="Premium toifa maxsus ayollar to'y ko'ylagi">
+                        </div>
+                        <div class="product-prices"><span class="current-price">250,000 so'm</span><span class="old-price">290,000 so'm</span></div>
+                        <div class="product-title">Premium toifa maxsus ayollar to'y ko'ylagi</div>
+                        <div class="product-sizes"><span class="size-badge">XL</span><span class="size-badge">XXL</span><span class="size-badge">XXXL</span></div>
+                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    </div>
+
+                    <!-- 11-kartochka -->
+                    <div class="product-card">
+                        <div class="product-img-box"><img src="assets/rasm11.png" alt="Bolalar kundalik ko'ylak"></div>
+                        <div class="product-prices"><span class="current-price">88,000 so'm</span><span class="old-price">110,000 so'm</span></div>
+                        <div class="product-title">Bolalar kundalik kiyish uchun ko'ylak</div>
+                        <div class="product-sizes"><span class="size-badge">S</span><span class="size-badge">M</span></div>
+                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    </div>
+
+                    <!-- 12-kartochka -->
+                    <div class="product-card">
+                        <div class="product-img-box"><img src="assets/rasm12.png" alt="Ayollar bahorgi tunika"></div>
+                        <div class="product-prices"><span class="current-price">135,000 so'm</span><span class="old-price">160,000 so'm</span></div>
+                        <div class="product-title">Ayollar bahorgi yengil tunika ko'ylak</div>
+                        <div class="product-sizes"><span class="size-badge">M</span><span class="size-badge">L</span><span class="size-badge">XL</span></div>
+                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    </div>
+
+                    <!-- 13-kartochka -->
+                    <div class="product-card">
+                        <div class="product-img-box"><img src="assets/rasm13.png" alt="Ayollar uzun ko'ylak"></div>
+                        <div class="product-prices"><span class="current-price">195,000 so'm</span><span class="old-price">230,000 so'm</span></div>
+                        <div class="product-title">Ayollar zamonaviy dizaynli uzun ko'ylak</div>
+                        <div class="product-sizes"><span class="size-badge">L</span><span class="size-badge">XL</span><span class="size-badge">XXL</span></div>
+                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    </div>
+
+                    <!-- 14-kartochka -->
+                    <div class="product-card">
+                        <div class="product-img-box"><img src="assets/rasm14.png" alt="Qizchalar bayramona ko'ylak"></div>
+                        <div class="product-prices"><span class="current-price">92,000 so'm</span><span class="old-price">115,000 so'm</span></div>
+                        <div class="product-title">Qizchalar uchun bayramona rangli ko'ylak</div>
+                        <div class="product-sizes"><span class="size-badge">S</span><span class="size-badge">M</span><span class="size-badge">L</span></div>
+                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    </div>
+
+                    <!-- 15-kartochka -->
+                    <div class="product-card">
+                        <div class="product-img-box"><img src="assets/rasm15.png" alt="Ayollar milliy ko'ylak"></div>
+                        <div class="product-prices"><span class="current-price">175,000 so'm</span><span class="old-price">200,000 so'm</span></div>
+                        <div class="product-title">Ayollar milliy matodan tikilgan ko'ylak</div>
+                        <div class="product-sizes"><span class="size-badge">M</span><span class="size-badge">L</span><span class="size-badge">XXL</span></div>
+                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    </div>
+
+                    <!-- 16-kartochka -->
+                    <div class="product-card">
+                        <div class="product-img-box"><img src="assets/rasm16.png" alt="Bolalar jinsi ko'ylagi"></div>
+                        <div class="product-prices"><span class="current-price">110,000 so'm</span><span class="old-price">135,000 so'm</span></div>
+                        <div class="product-title">Bolalar jinsi matoli qulay ko'ylak</div>
+                        <div class="product-sizes"><span class="size-badge">S</span><span class="size-badge">M</span></div>
+                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    </div>
+
+                    <!-- 17-kartochka -->
+                    <div class="product-card">
+                        <div class="product-img-box"><img src="assets/rasm17.png" alt="Ayollar trikotaj ko'ylagi"></div>
+                        <div class="product-prices"><span class="current-price">215,000 so'm</span><span class="old-price">245,000 so'm</span></div>
+                        <div class="product-title">Ayollar qishki qalin trikotaj ko'ylagi</div>
+                        <div class="product-sizes"><span class="size-badge">XL</span><span class="size-badge">XXL</span><span class="size-badge">XXXL</span></div>
+                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    </div>
+
+                    <!-- 18-kartochka -->
+                    <div class="product-card">
+                        <div class="product-img-box"><img src="assets/rasm18.png" alt="Sport formasi"></div>
+                        <div class="product-prices"><span class="current-price">98,000 so'm</span><span class="old-price">120,000 so'm</span></div>
+                        <div class="product-title">Sport formasi</div>
+                        <div class="product-sizes"><span class="size-badge">S</span><span class="size-badge">M</span><span class="size-badge">L</span></div>
+                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    </div>
+
+                    <!-- 19-kartochka -->
+                    <div class="product-card">
+                        <div class="product-img-box"><img src="assets/rasm19.png" alt="Erkaklar ko'ylagi"></div>
+                        <div class="product-prices"><span class="current-price">155,000 so'm</span><span class="old-price">185,000 so'm</span></div>
+                        <div class="product-title">Erkaklar ko'ylagi</div>
+                        <div class="product-sizes"><span class="size-badge">M</span><span class="size-badge">L</span><span class="size-badge">XL</span></div>
+                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    </div>
+
+                    <!-- 20-kartochka -->
+                    <div class="product-card">
+                        <div class="product-img-box"><img src="assets/rasm20.png" alt="Erkaklar prezidenskiy kurtka"></div>
+                        <div class="product-prices"><span class="current-price">240,000 so'm</span><span class="old-price">280,000 so'm</span></div>
+                        <div class="product-title">Erkaklar prezidenskiy kurtka</div>
+                        <div class="product-sizes"><span class="size-badge">L</span><span class="size-badge">XL</span><span class="size-badge">XXL</span><span class="size-badge">XXXL</span></div>
+                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <div>
+                <span class="footer-status">● Tizim holati: Faol (Online)</span>
+            </div>
+            <div>
+                &copy; 2026 "Urgutni ko'ylaklari" korxonasi. Sotuv bo'limi.
+            </div>
+            <div>
+                <strong>Dasturchi:</strong> Xalimov Azizjon | Urgut
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>

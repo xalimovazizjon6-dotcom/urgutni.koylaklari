@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>👕 "Urgutni ko'ylaklari" - Omborxona Bo'limi</title>
+    <style>
+        /* =========================================================
+           1. UMUMIY SAHIFA VA ASOSIY DIZAYN SOZLAMALARI (CSS)
+           ========================================================= */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Asosiy shrift turi */
+            margin: 0;  /* Tashqi bo'shliqlarni olib tashlash */
+            padding: 0; /* Ichki bo'shliqlarni olib tashlash */
+            background-color: #03045e; /* Sahifaning to'q ko'k asosiy foni */
+        }
+
+        /* Menyuni va Tungi/Tonggi rejimlarni JavaScript-siz boshqarish uchun checkboxlarni yashirish */
+        #menu-toggle, #theme-toggle {
+            display: none;
+        }
+
+        /* =========================================================
+           2. YUQORI SArLAVHA (HEADER) QISMI
+           ========================================================= */
+        header {
+            position: fixed; /* Ekranning yuqori qismida qotirib qo'yish */
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 75px; /* Sarlavha balandligi */
+            background: linear-gradient(90deg, #0f2027, #203a43, #2c5364); /* Chiroyli quyuq gradient rang */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.3); /* Ostki qismiga soya berish */
+            z-index: 1000; /* Boshqa elementlardan ustun turishi */
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Menyu ochib-yopish tugmasi */
+        .menu-btn {
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            margin-right: 20px;
+            box-shadow: 0 4px 10px rgba(0, 114, 255, 0.3);
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .menu-btn:hover {
+            background: linear-gradient(135deg, #f857a6, #ff5858);
+            transform: scale(1.05); /* Sichqoncha kelganda kattalashish */
+        }
+
+        /* Logotip va sarlavha konteyneri */
+        .brand-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-wrapper {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%; /* Dumaloq shakl */
+            border: 2px solid #00c6ff;
+            box-shadow: 0 2px 10px rgba(0, 198, 255, 0.5);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #0f2027;
+            flex-shrink: 0;
+        }
+
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.25);
+        }
+
+        .header-title h1 {
+            margin: 0;
+            font-size: 22px;
+            letter-spacing: 0.5px;
+        }
+
+        .header-title p {
+            margin: 3px 0 0 0;
+            color: #cbd5e0;
+            font-size: 13px;
+        }
+
+        /* Tungi va Tonggi rejimni o'zgartiruvchi tugma */
+        .theme-btn {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 9px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .theme-btn:hover {
+            background: #00c6ff;
+            color: #0f2027;
+            border-color: #00c6ff;
+        }
+
+        /* =========================================================
+           3. CHAP SIDEBAR (MENYU) QISMI
+           ========================================================= */
+        .left-sidebar {
+            position: fixed; /* Chap tomonda qotirib qo'yish */
+            top: 75px;
+            left: 0;
+            bottom: 0;
+            width: 260px;
+            background-color: #1a2530;
+            padding: 25px 15px;
+            box-sizing: border-box;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .left-sidebar h3 {
+            color: #a0aec0;
+            font-size: 13px;
+            text-transform: uppercase;
+            margin-top: 0;
+            margin-bottom: 18px;
+            padding-left: 10px;
+            border-bottom: 1px solid #2d3748;
+            padding-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .left-sidebar a {
+            display: block;
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 13px 18px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            background-color: rgba(255, 255, 255, 0.04);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .left-sidebar a:hover {
+            background: linear-gradient(90deg, #00c6ff 0%, #0072ff 100%);
+            color: #ffffff;
+            transform: translateX(8px);
+            border-left: 4px solid #fff;
+            box-shadow: 0 4px 15px rgba(0, 198, 255, 0.4);
+        }
+
+        /* Joriy faol sahifa uchun stil */
+        .left-sidebar a.active {
+            background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(56, 239, 125, 0.3);
+        }
+
+        /* =========================================================
+           4. ASOSIY KONTENT MAYDONI
+           ========================================================= */
+        .page-wrapper {
+            margin-top: 75px;
+            margin-left: 260px; /* Sidebar kengligicha o'ngga surish */
+            transition: margin-left 0.3s ease;
+            min-height: calc(100vh - 75px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Menyu yopilganda sahifani kengaytirish */
+        #menu-toggle:checked ~ .left-sidebar {
+            transform: translateX(-260px);
+        }
+
+        #menu-toggle:checked ~ .page-wrapper {
+            margin-left: 0;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 35px 45px;
+            background-color: #03045e;
+            color: #ffffff;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .top-description {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .top-description h2 {
+            color: #00e5ff;
+            font-size: 36px;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        /* Statistika kartochkalari grid dizayni */
+        .stats-grid {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            flex: 1;
+            min-width: 250px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-left: 5px solid #00e5ff;
+            padding: 22px 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .stat-card h4 {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: #cbd5e0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card .stat-value {
+            font-size: 26px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        /* =========================================================
+           5. OMBOR JADVALI STYLARI
+           ========================================================= */
+        .table-section h3 {
+            color: #00e5ff;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            color: #2d3748;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        th, td {
+            padding: 14px 18px;
+            text-align: left;
+            font-size: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background-color: #1a365d;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #f1f5f9; /* Qator ustiga kelganda rang o'zgarishi */
+        }
+
+        /* Holat rangli nishonlari (Badges) */
+        .badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            color: white;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .badge-red { background-color: #e53e3e; box-shadow: 0 2px 8px rgba(229,62,62,0.4); }     /* Kam qolgan */
+        .badge-yellow { background-color: #d69e2e; box-shadow: 0 2px 8px rgba(214,158,46,0.4); }  /* O'rtacha */
+        .badge-green { background-color: #38a169; box-shadow: 0 2px 8px rgba(56,161,105,0.4); }   /* Yetarli */
+
+        /* =========================================================
+           6. TONGGI REJIM (LIGHT THEME) QOIDALARI
+           ========================================================= */
+        #theme-toggle:checked ~ .page-wrapper .main-content {
+            background-color: #f0f4f8;
+            color: #2d3748;
+        }
+
+        #theme-toggle:checked ~ .page-wrapper .top-description {
+            border-bottom: 2px solid #cbd5e0;
+        }
+
+        #theme-toggle:checked ~ .page-wrapper .top-description h2,
+        #theme-toggle:checked ~ .page-wrapper .table-section h3 {
+            color: #03045e;
+        }
+
+        #theme-toggle:checked ~ .page-wrapper .stat-card {
+            background: #ffffff;
+            border-color: #cbd5e0;
+            border-left: 5px solid #03045e;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        #theme-toggle:checked ~ .page-wrapper .stat-card h4 {
+            color: #718096;
+        }
+
+        #theme-toggle:checked ~ .page-wrapper .stat-card .stat-value {
+            color: #03045e;
+        }
+
+        /* =========================================================
+           7. FOOTER (PASTKI QISM) STYLARI
+           ========================================================= */
+        footer {
+            background-color: #091118;
+            color: #cbd5e0;
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            font-size: 14px;
+            border-top: 3px solid #00c6ff;
+        }
+
+        .footer-status {
+            color: #38ef7d;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- =================OMBORXONA SAHifASI HTML QISMI BOSHLANISHI================ -->
+
+    <!-- Menyu va Tungi/Tonggi rejimni boshqaruvchi yashirin checkboxlar -->
+    <input type="checkbox" id="menu-toggle">
+    <input type="checkbox" id="theme-toggle">
+
+    <!-- Yuqori sarlavha va boshqaruv paneli (Header) -->
+    <header>
+        <div class="header-left">
+            <!-- Menyu ochish tugmasi -->
+            <label for="menu-toggle" class="menu-btn">☰ Menyu</label>
+            <!-- Logotip va korxona nomi -->
+            <div class="brand-box">
+                <div class="logo-wrapper">
+                    <img src="assets/logo.png" alt="Logotip" class="logo-img">
+                </div>
+                <div class="header-title">
+                    <h1>"Urgutni ko'ylaklari" Korxonasi Veb Tizimi</h1>
+                    <p>Omborxona va xomashyo zaxiralarini boshqarish paneli</p>
+                </div>
+            </div>
+        </div>
+        <!-- Rejimni o'zgartirish tugmasi -->
+        <label for="theme-toggle" class="theme-btn">☀️ Tonggi / 🌙 Tungi rejim</label>
+    </header>
+
+    <!-- Chap tarafdagi navigatsiya menyusi (Sidebar) -->
+    <aside class="left-sidebar">
+        <h3>Bo'limlar menyusi</h3>
+        <a href="dashboard.html">Bosh sahifa</a>
+        <a href="omborxona.html" class="active">Omborxona</a>
+        <a href="sotuv.html">Sotuv bo'limi</a>
+        <a href="kassa.html">Kassa</a>
+        <a href="valyuta.html">Valyuta almashinuvi</a>
+        <a href="kalkulyator.html">Kalkulyator</a>
+        <a href="ishchilar.html">Ishchilar</a>
+    </aside>
+
+    <!-- Asosiy sahifa konteyneri -->
+    <div class="page-wrapper">
+        <main class="main-content">
+            
+            <!-- Sahifa sarlavhasi -->
+            <div class="top-description">
+                <h2>Omborxona Zaxiralari Boshqaruvi</h2>
+            </div>
+
+            <!-- Asosiy statistika kartochkalari (Jami mahsulot va umumiy summa) -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h4>📦 Ombordagi Jami Mahsulot</h4>
+                    <div class="stat-value">18,450 dona</div>
+                </div>
+                <div class="stat-card">
+                    <h4>💰 Jami Mahsulot Summasi</h4>
+                    <div class="stat-value">793,500,000 so'm</div>
+                </div>
+            </div>
+
+            <!-- Ombor mahsulotlari jadvali (150 ta qatorlik ma'lumotlar bazasi ko'rinishi) -->
+            <div class="table-section">
+                <h3>Ombordagi barcha mahsulotlar ro'yxati (150 ta qator)</h3>
+                <table>
+                    <tr>
+                        <th>T/r</th>
+                        <th>Mahsulot nomi</th>
+                        <th>O'lchami</th>
+                        <th>Ishlab chiqarilgan sanasi</th>
+                        <th>Mavjud soni</th>
+                        <th>Holati</th>
+                    </tr>
+                    <!-- 1-qator -->
+                    <tr><td>1</td><td>Bolalar yozgi ko'ylagi (Ipak)</td><td>L</td><td>2026-05-12</td><td>18 dona</td><td><span class="badge badge-red">Kam qolgan</span></td></tr>
+                    <!-- 2-qator -->
+                    <tr><td>2</td><td>Ayollar bayram ko'ylagi</td><td>XL</td><td>2026-06-18</td><td>65 dona</td><td><span class="badge badge-yellow">O'rtacha</span></td></tr>
+                    <!-- 3-qator -->
+                    <tr><td>3</td><td>Klassik ayollar ko'ylagi</td><td>XXL</td><td>2026-07-02</td><td>240 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- 4-qator -->
+                    <tr><td>4</td><td>Bolalar maktab ko'ylagi</td><td>M</td><td>2026-08-10</td><td>12 dona</td><td><span class="badge badge-red">Kam qolgan</span></td></tr>
+                    <!-- 5-qator -->
+                    <tr><td>5</td><td>Zamonaviy ayollar ko'ylagi</td><td>XXXL</td><td>2026-09-01</td><td>180 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- 6-qator -->
+                    <tr><td>6</td><td>Qizlar uchun tungi ko'ylak</td><td>S</td><td>2026-05-15</td><td>22 dona</td><td><span class="badge badge-yellow">O'rtacha</span></td></tr>
+                    <!-- 7-qator -->
+                    <tr><td>7</td><td>Ayollar uzun ko'ylagi</td><td>XL</td><td>2026-05-20</td><td>155 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- 8-qator -->
+                    <tr><td>8</td><td>Bolalar sport ko'ylagi</td><td>M</td><td>2026-06-01</td><td>9 dona</td><td><span class="badge badge-red">Kam qolgan</span></td></tr>
+                    <!-- 9-qator -->
+                    <tr><td>9</td><td>Ayollar shoyi ko'ylagi</td><td>XXL</td><td>2026-06-05</td><td>95 dona</td><td><span class="badge badge-yellow">O'rtacha</span></td></tr>
+                    <!-- 10-qator -->
+                    <tr><td>10</td><td>Bolalar milliy do'ppi va ko'ylak</td><td>L</td><td>2026-06-12</td><td>210 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- 11-qator -->
+                    <tr><td>11</td><td>Kattalar uchun kundalik ko'ylak</td><td>XXXL</td><td>2026-06-15</td><td>14 dona</td><td><span class="badge badge-red">Kam qolgan</span></td></tr>
+                    <!-- 12-qator -->
+                    <tr><td>12</td><td>Ayollar bahorgi ko'ylagi</td><td>M</td><td>2026-06-22</td><td>88 dona</td><td><span class="badge badge-yellow">O'rtacha</span></td></tr>
+                    <!-- 13-qator -->
+                    <tr><td>13</td><td>Bolalar bayramona ko'ylagi</td><td>L</td><td>2026-06-25</td><td>310 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- 14-qator -->
+                    <tr><td>14</td><td>Ayollar qishki qalin ko'ylagi</td><td>XL</td><td>2026-07-01</td><td>19 dona</td><td><span class="badge badge-red">Kam qolgan</span></td></tr>
+                    <!-- 15-qator -->
+                    <tr><td>15</td><td>Qizchalar uchun atirgulli ko'ylak</td><td>S</td><td>2026-07-08</td><td>140 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- 16-qator -->
+                    <tr><td>16</td><td>Ayollar office uslubidagi ko'ylak</td><td>L</td><td>2026-07-11</td><td>75 dona</td><td><span class="badge badge-yellow">O'rtacha</span></td></tr>
+                    <!-- 17-qator -->
+                    <tr><td>17</td><td>Bolalar jinsi ko'ylagi</td><td>M</td><td>2026-07-15</td><td>11 dona</td><td><span class="badge badge-red">Kam qolgan</span></td></tr>
+                    <!-- 18-qator -->
+                    <tr><td>18</td><td>Ayollar atlas ko'ylagi</td><td>XXL</td><td>2026-07-20</td><td>190 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- 19-qator -->
+                    <tr><td>19</td><td>Kattalar uchun qora ko'ylak</td><td>XXXL</td><td>2026-07-25</td><td>60 dona</td><td><span class="badge badge-yellow">O'rtacha</span></td></tr>
+                    <!-- 20-qator -->
+                    <tr><td>20</td><td>Bolalar paxta ko'ylagi</td><td>L</td><td>2026-08-01</td><td>280 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- 21-qator -->
+                    <tr><td>21</td><td>Ayollar oqshom ko'ylagi</td><td>M</td><td>2026-08-04</td><td>15 dona</td><td><span class="badge badge-red">Kam qolgan</span></td></tr>
+                    <!-- 22-qator -->
+                    <tr><td>22</td><td>Qizchalar uchun safar ko'ylagi</td><td>S</td><td>2026-08-09</td><td>115 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- 23-qator -->
+                    <tr><td>23</td><td>Ayollar to'qima ko'ylagi</td><td>XL</td><td>2026-08-14</td><td>50 dona</td><td><span class="badge badge-yellow">O'rtacha</span></td></tr>
+                    <!-- 24-qator -->
+                    <tr><td>24</td><td>Bolalar yorqin rangli ko'ylak</td><td>L</td><td>2026-08-18</td><td>300 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- 25-qator -->
+                    <tr><td>25</td><td>Ayollar uzun yengli ko'ylak</td><td>XXL</td><td>2026-08-22</td><td>8 dona</td><td><span class="badge badge-red">Kam qolgan</span></td></tr>
+                    <!-- 26-qator -->
+                    <tr><td>26</td><td>Ayollar zamonaviy tunika</td><td>M</td><td>2026-08-26</td><td>130 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- 27-qator -->
+                    <tr><td>27</td><td>Bolalar adras ko'ylagi</td><td>S</td><td>2026-08-30</td><td>85 dona</td><td><span class="badge badge-yellow">O'rtacha</span></td></tr>
+                    <!-- 28-qator -->
+                    <tr><td>28</td><td>Ayollar velvet ko'ylagi</td><td>XXXL</td><td>2026-09-02</td><td>170 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- 29-qator -->
+                    <tr><td>29</td><td>Kattalar uchun oddiy ko'ylak</td><td>L</td><td>2026-09-05</td><td>13 dona</td><td><span class="badge badge-red">Kam qolgan</span></td></tr>
+                    <!-- 30-qator -->
+                    <tr><td>30</td><td>Ayollar qisqa ko'ylagi</td><td>M</td><td>2026-09-08</td><td>90 dona</td><td><span class="badge badge-yellow">O'rtacha</span></td></tr>
+                    <!-- 31-qator -->
+                    <tr><td>31</td><td>Bolalar ko'ylagi (Oddiy)</td><td>XL</td><td>2026-09-10</td><td>250 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- 32-qator -->
+                    <tr><td>32</td><td>Ayollar ko'ylagi (Sifatli)</td><td>XXL</td><td>2026-09-12</td><td>10 dona</td><td><span class="badge badge-red">Kam qolgan</span></td></tr>
+                    <!-- 33-qator -->
+                    <tr><td>33</td><td>Qizchalar uchun bayram ko'ylagi</td><td>S</td><td>2026-09-14</td><td>110 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- 34-qator -->
+                    <tr><td>34</td><td>Ayollar ko'ylagi (Klassik)</td><td>L</td><td>2026-09-16</td><td>68 dona</td><td><span class="badge badge-yellow">O'rtacha</span></td></tr>
+                    <!-- 35-qator -->
+                    <tr><td>35</td><td>Bolalar ko'ylagi (Mavsumiy)</td><td>M</td><td>2026-09-18</td><td>220 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- 36-qator -->
+                    <tr><td>36</td><td>Ayollar ko'ylagi (Dizayn)</td><td>XXXL</td><td>2026-09-20</td><td>7 dona</td><td><span class="badge badge-red">Kam qolgan</span></td></tr>
+                    <!-- 37-qator -->
+                    <tr><td>37</td><td>Ayollar ko'ylagi (Ulgurji)</td><td>XL</td><td>2026-09-22</td><td>145 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- 38-qator -->
+                    <tr><td>38</td><td>Bolalar ko'ylagi (Maktab uchun)</td><td>L</td><td>2026-09-24</td><td>55 dona</td><td><span class="badge badge-yellow">O'rtacha</span></td></tr>
+                    <!-- 39-qator -->
+                    <tr><td>39</td><td>Ayollar ko'ylagi (Maxsus)</td><td>XXL</td><td>2026-09-25</td><td>195 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- 40-qator -->
+                    <tr><td>40</td><td>Ayollar ko'ylagi (Yengil)</td><td>M</td><td>2026-09-26</td><td>12 dona</td><td><span class="badge badge-red">Kam qolgan</span></td></tr>
+                    <!-- 41-qator -->
+                    <tr><td>41</td><td>Bolalar yozgi ko'ylagi</td><td>S</td><td>2026-09-27</td><td>160 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- 42-qator -->
+                    <tr><td>42</td><td>Ayollar shoyi ko'ylagi</td><td>XL</td><td>2026-09-28</td><td>45 dona</td><td><span class="badge badge-yellow">O'rtacha</span></td></tr>
+                    <!-- 43-qator -->
+                    <tr><td>43</td><td>Klassik ko'ylak</td><td>XXL</td><td>2026-09-29</td><td>5 dona</td><td><span class="badge badge-red">Kam qolgan</span></td></tr>
+                    <!-- 44-qator -->
+                    <tr><td>44</td><td>Bolalar sport ko'ylagi</td><td>M</td><td>2026-09-30</td><td>130 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- 45-qator -->
+                    <tr><td>45</td><td>Ayollar uzun ko'ylagi</td><td>XXXL</td><td>2026-10-01</td><td>88 dona</td><td><span class="badge badge-yellow">O'rtacha</span></td></tr>
+                    <!-- 46-qator -->
+                    <tr><td>46</td><td>Qizchalar uchun ko'ylak</td><td>S</td><td>2026-10-02</td><td>14 dona</td><td><span class="badge badge-red">Kam qolgan</span></td></tr>
+                    <!-- 47-qator -->
+                    <tr><td>47</td><td>Ayollar bayram ko'ylagi</td><td>L</td><td>2026-10-03</td><td>215 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- 48-qator -->
+                    <tr><td>48</td><td>Bolalar paxta ko'ylagi</td><td>XL</td><td>2026-10-04</td><td>60 dona</td><td><span class="badge badge-yellow">O'rtacha</span></td></tr>
+                    <!-- 49-qator -->
+                    <tr><td>49</td><td>Ayollar office ko'ylagi</td><td>M</td><td>2026-10-05</td><td>9 dona</td><td><span class="badge badge-red">Kam qolgan</span></td></tr>
+                    <!-- 50-qator -->
+                    <tr><td>50</td><td>Zamonaviy ayollar ko'ylagi</td><td>XXL</td><td>2026-10-06</td><td>175 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                    <!-- Umumiy jamlovchi 51-150 qatorlar -->
+                    <tr><td>51-150</td><td>Urgut maxsus assortimentdagi ko'ylaklar (Bolalar va Kattalar)</td><td>L/XL</td><td>2026-10-06</td><td>4,500 dona</td><td><span class="badge badge-green">Ko'p (Yetarli)</span></td></tr>
+                </table>
+            </div>
+
+        </main>
+
+        <!-- Pastki qism va muallif ma'lumoti (Footer) -->
+        <footer>
+            <div>
+                <span class="footer-status">● Tizim holati: Faol (Online)</span>
+            </div>
+            <div>
+                &copy; 2026 "Urgutni ko'ylaklari" korxonasi. Omborxona bo'limi.
+            </div>
+            <div>
+                <strong>Dasturchi:</strong> Xalimov Azizjon | Urgut
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>
