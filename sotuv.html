@@ -2,625 +2,1083 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <title>👕 "Urgutni ko'ylaklari" - Sotuv Bo'limi</title>
+    <!-- 1-ko'rsatkich: Moslashuvchanlik (Responsive) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👕 "Urgutning ko'ylaklari" - Sotuv Bo'limi</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 5-ko'rsatkich: Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Yagona umumiy CSS -->
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <!-- Sotuv bo'limi uchun maxsus jilolanuvchi gradient va orqa fon illyustratsiyalari -->
     <style>
-        /* Umumiy sahifa sozlamalari */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #03045e;
+        /* Sotuv bo'limiga xos noodatiy jilolanuvchi gradient (Yoqut, Binafsha, Zumrad, Moviy) */
+        body.sotuv-page {
+            background: linear-gradient(
+                -45deg,
+                #1a0b2e,
+                #831843,
+                #4c1d95,
+                #065f46,
+                #0f172a,
+                #9d174d
+            );
+            background-size: 400% 400%;
+            animation: sotuvAurora 9s ease infinite;
+            background-attachment: fixed;
         }
 
-        #menu-toggle, #theme-toggle {
-            display: none;
+        @keyframes sotuvAurora {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        /* Header qismi */
-        header {
+        /* Tonggi rejimda sotuv bo'limi uchun iliq pastel gradient */
+        body.sotuv-page.light-mode {
+            background: linear-gradient(-45deg, #fce7f3, #ede9fe, #d1fae5, #fef3c7, #e0f2fe);
+            background-size: 400% 400%;
+            animation: sotuvAurora 9s ease infinite;
+        }
+
+        /* Orqa fondagi suzuvchi abstrakt illyustratsiyalar */
+        .bg-illustrations {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 75px;
-            background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 25px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.3);
-            z-index: 1000;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-        }
-
-        .menu-btn {
-            background: linear-gradient(135deg, #00c6ff, #0072ff);
-            color: white;
-            padding: 10px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: bold;
-            margin-right: 20px;
-            box-shadow: 0 4px 10px rgba(0, 114, 255, 0.3);
-            transition: all 0.3s ease;
-            user-select: none;
-        }
-
-        .menu-btn:hover {
-            background: linear-gradient(135deg, #f857a6, #ff5858);
-            transform: scale(1.05);
-        }
-
-        .brand-box {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo-wrapper {
-            width: 56px;
-            height: 56px;
+        .illus-orb {
+            position: absolute;
             border-radius: 50%;
-            border: 2px solid #00c6ff;
-            box-shadow: 0 2px 10px rgba(0, 198, 255, 0.5);
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #0f2027;
-            flex-shrink: 0;
+            filter: blur(85px);
+            opacity: 0.35;
+            animation: floatIllus 12s infinite alternate ease-in-out;
         }
 
-        .logo-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transform: scale(1.25);
+        .illus-orb-1 {
+            width: 360px;
+            height: 360px;
+            background: #ec4899;
+            top: 10%;
+            right: 5%;
         }
 
-        .header-title h1 {
-            margin: 0;
-            font-size: 22px;
-            letter-spacing: 0.5px;
+        .illus-orb-2 {
+            width: 320px;
+            height: 320px;
+            background: #10b981;
+            bottom: 12%;
+            left: 22%;
+            animation-delay: -4s;
         }
 
-        .header-title p {
-            margin: 3px 0 0 0;
-            color: #cbd5e0;
-            font-size: 13px;
+        .illus-orb-3 {
+            width: 280px;
+            height: 280px;
+            background: #f59e0b;
+            top: 48%;
+            left: 55%;
+            opacity: 0.22;
+            animation-delay: -7s;
         }
 
-        .theme-btn {
-            background: rgba(255, 255, 255, 0.12);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 9px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            user-select: none;
+        /* Suzuvchi shaffof geometrik halqa illyustratsiyasi */
+        .illus-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px dashed rgba(255, 255, 255, 0.12);
+            animation: spinSlow 35s linear infinite;
         }
 
-        .theme-btn:hover {
-            background: #00c6ff;
-            color: #0f2027;
-            border-color: #00c6ff;
+        .illus-ring-1 {
+            width: 420px;
+            height: 420px;
+            top: -80px;
+            right: -100px;
         }
 
-        /* Chap Sidebar */
-        .left-sidebar {
-            position: fixed;
-            top: 75px;
-            left: 0;
-            bottom: 0;
-            width: 260px;
-            background-color: #1a2530;
-            padding: 25px 15px;
-            box-sizing: border-box;
-            box-shadow: 4px 0 15px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease;
-            z-index: 999;
-            overflow-y: auto;
+        .illus-ring-2 {
+            width: 300px;
+            height: 300px;
+            bottom: 8%;
+            right: 18%;
+            animation-direction: reverse;
+            animation-duration: 28s;
         }
 
-        .left-sidebar h3 {
-            color: #a0aec0;
-            font-size: 13px;
-            text-transform: uppercase;
-            margin-top: 0;
-            margin-bottom: 18px;
-            padding-left: 10px;
-            border-bottom: 1px solid #2d3748;
-            padding-bottom: 10px;
-            letter-spacing: 1px;
+        @keyframes floatIllus {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(35px, -30px) scale(1.12); }
         }
 
-        .left-sidebar a {
-            display: block;
-            color: #e2e8f0;
-            text-decoration: none;
-            padding: 13px 18px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 15px;
-            background-color: rgba(255, 255, 255, 0.04);
-            transition: all 0.3s ease;
-            border-left: 4px solid transparent;
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
-        .left-sidebar a:hover {
-            background: linear-gradient(90deg, #00c6ff 0%, #0072ff 100%);
-            color: #ffffff;
-            transform: translateX(8px);
-            border-left: 4px solid #fff;
-            box-shadow: 0 4px 15px rgba(0, 198, 255, 0.4);
-        }
-
-        .left-sidebar a.active {
-            background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
-            color: #ffffff;
-            box-shadow: 0 4px 12px rgba(56, 239, 125, 0.3);
-        }
-
-        /* Asosiy qism */
+        /* Kontent illyustratsiyalar ustida turishi uchun */
         .page-wrapper {
-            margin-top: 75px;
-            margin-left: 260px;
-            transition: margin-left 0.3s ease;
-            min-height: calc(100vh - 75px);
-            display: flex;
-            flex-direction: column;
+            position: relative;
+            z-index: 1;
         }
 
-        #menu-toggle:checked ~ .left-sidebar {
-            transform: translateX(-260px);
-        }
-
-        #menu-toggle:checked ~ .page-wrapper {
-            margin-left: 0;
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 35px 45px;
-            background-color: #03045e;
-            color: #ffffff;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .top-description {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .top-description h2 {
-            color: #00e5ff;
-            font-size: 36px;
-            margin: 0;
-            letter-spacing: 1px;
-        }
-
-        /* =========================================================
-           MAHSULOTLAR CARDS (GRID USLUBIDA - #caf0f8 rangda)
-           ========================================================= */
-        .products-section h3 {
-            color: #00e5ff;
-            font-size: 24px;
-            margin-bottom: 25px;
-            border-left: 5px solid #00e5ff;
-            padding-left: 12px;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 25px;
-        }
-
-        .product-card {
-            background-color: #caf0f8;
-            color: #1d3557;
-            border-radius: 12px;
-            padding: 15px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 30px rgba(0, 198, 255, 0.4);
-        }
-
-        .product-img-box {
-            width: 100%;
-            height: 220px;
-            background-color: #ffffff;
-            border-radius: 8px;
+        /* Mahsulot kartochkasi dizayni */
+        .product-glass-card {
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #bde0fe;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .product-img-box img {
+        .product-glass-card:hover {
+            transform: translateY(-8px);
+            border-color: #f472b6;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45), 0 0 25px rgba(236, 72, 153, 0.35);
+        }
+
+        .product-img-wrap {
+            position: relative;
+            height: 230px;
+            overflow: hidden;
+            background: #ffffff;
+        }
+
+        .product-img-wrap img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.45s ease;
         }
 
-        .product-prices {
-            margin-top: 12px;
+        .product-glass-card:hover .product-img-wrap img {
+            transform: scale(1.08);
         }
 
-        .current-price {
-            font-size: 18px;
-            font-weight: bold;
-            color: #d90429;
-        }
-
-        .old-price {
-            font-size: 13px;
-            color: #6c757d;
-            text-decoration: line-through;
-            margin-left: 8px;
-        }
-
-        .product-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #1d3557;
-            margin: 8px 0;
-            line-height: 1.4;
-            min-height: 40px;
-        }
-
-        .product-sizes {
-            display: flex;
-            gap: 5px;
-            margin: 8px 0;
-            flex-wrap: wrap;
-        }
-
-        .size-badge {
-            background-color: #457b9d;
-            color: white;
+        .discount-tag {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: linear-gradient(135deg, #ec4899, #f43f5e);
+            color: #ffffff;
             font-size: 11px;
-            padding: 3px 7px;
-            border-radius: 4px;
-            font-weight: bold;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 999px;
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.5);
         }
 
-        .order-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #7209b7, #3a0ca3);
-            color: white;
+        .cat-tag {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            backdrop-filter: blur(8px);
+            font-size: 11px;
+        }
+
+        .price-now {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #38bdf8;
+        }
+
+        body.light-mode .price-now {
+            color: #db2777;
+        }
+
+        .price-old {
+            font-size: 0.82rem;
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .size-pill {
+            background: rgba(139, 92, 246, 0.22);
+            border: 1px solid rgba(139, 92, 246, 0.45);
+            color: #e2e8f0;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        body.light-mode .size-pill {
+            background: #ede9fe;
+            color: #5b21b6;
+            border-color: #c4b5fd;
+        }
+
+        .buy-neon-btn {
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
             border: none;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background 0.3s;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: all 0.25s ease;
         }
 
-        .order-btn:hover {
-            background: linear-gradient(135deg, #3a0ca3, #7209b7);
-        }
-
-        /* =========================================================
-           TONGGI REJIM SOZLAMALARI
-           ========================================================= */
-        #theme-toggle:checked ~ .page-wrapper .main-content {
-            background-color: #f0f4f8;
-            color: #2d3748;
-        }
-
-        #theme-toggle:checked ~ .page-wrapper .top-description h2,
-        #theme-toggle:checked ~ .page-wrapper .products-section h3 {
-            color: #03045e;
-        }
-
-        /* Footer */
-        footer {
-            background-color: #091118;
-            color: #cbd5e0;
-            padding: 25px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            font-size: 14px;
-            border-top: 3px solid #00c6ff;
-        }
-
-        .footer-status {
-            color: #38ef7d;
-            font-weight: bold;
+        .buy-neon-btn:hover {
+            background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(236, 72, 153, 0.45);
         }
     </style>
 </head>
-<body>
+<body class="sotuv-page">
 
-    <input type="checkbox" id="menu-toggle">
-    <input type="checkbox" id="theme-toggle">
+    <!-- Orqa fondagi suzuvchi illyustratsiyalar -->
+    <div class="bg-illustrations">
+        <div class="illus-orb illus-orb-1"></div>
+        <div class="illus-orb illus-orb-2"></div>
+        <div class="illus-orb illus-orb-3"></div>
+        <div class="illus-ring illus-ring-1"></div>
+        <div class="illus-ring illus-ring-2"></div>
+    </div>
 
-    <!-- Header qismi -->
-    <header>
-        <div class="header-left">
-            <label for="menu-toggle" class="menu-btn">☰ Menyu</label>
-            <div class="brand-box">
+    <!-- 7-ko'rsatkich: Konteynerli menyu (Navbar + Container) -->
+    <nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top shadow">
+        <div class="container-fluid px-3 px-lg-4">
+            <button id="menuToggleBtn" class="btn btn-info text-white fw-bold me-3 menu-btn" type="button">
+                <i class="bi bi-list fs-5 me-1"></i> Menyu
+            </button>
+
+            <a class="navbar-brand d-flex align-items-center gap-2 me-auto" href="dashboard.html">
                 <div class="logo-wrapper">
                     <img src="assets/logo.png" alt="Logotip" class="logo-img">
                 </div>
-                <div class="header-title">
-                    <h1>"Urgutni ko'ylaklari" Korxonasi Veb Tizimi</h1>
-                    <p>Sotuv va mahsulotlar katalogi paneli</p>
+                <div class="d-none d-sm-block">
+                    <div class="fw-bold fs-6 lh-1 text-white">"Urgutning ko'ylaklari" Korxonasi</div>
+                    <small class="text-info opacity-75" style="font-size: 11px;">Sotuv va mahsulotlar katalogi paneli</small>
                 </div>
+            </a>
+
+            <button class="navbar-toggler border-info" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end gap-3 mt-3 mt-lg-0" id="topNavbarContent">
+                <!-- 6-ko'rsatkich: Oddiy Dropdown komponenti -->
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle text-white fw-semibold d-flex align-items-center gap-1" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle text-info fs-5"></i> Profil
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark border-info shadow">
+                        <li><h6 class="dropdown-header text-info">Administrator</h6></li>
+                        <li><a class="dropdown-item" href="ishchilar.html"><i class="bi bi-people me-2"></i>Xodimlar</a></li>
+                        <li><a class="dropdown-item" href="kassa.html"><i class="bi bi-cash-stack me-2"></i>Kassa hisobi</a></li>
+                        <li><hr class="dropdown-divider border-secondary"></li>
+                        <li><a class="dropdown-item text-danger" href="index.html"><i class="bi bi-box-arrow-right me-2"></i>Tizimdan chiqish</a></li>
+                    </ul>
+                </div>
+
+                <!-- Tonggi / Tungi rejim tugmasi -->
+                <button id="themeToggleBtn" class="btn btn-sm btn-outline-info rounded-pill px-3 fw-semibold" type="button"
+                        data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tonggi va Tungi rejimni almashtirish">
+                    <i class="bi bi-sun-fill me-1" id="themeIcon"></i>
+                    <span id="themeText">Tonggi rejim</span>
+                </button>
             </div>
         </div>
-        <label for="theme-toggle" class="theme-btn">☀️ Tonggi / 🌙 Tungi rejim</label>
-    </header>
+    </nav>
 
-    <!-- Chap Sidebar -->
-    <aside class="left-sidebar">
-        <h3>Bo'limlar menyusi</h3>
-        <a href="dashboard.html">Bosh sahifa</a>
-        <a href="omborxona.html">Omborxona</a>
-        <a href="sotuv.html" class="active">Sotuv bo'limi</a>
-        <a href="kassa.html">Kassa</a>
-        <a href="buyurtmalar.html">Buyurtmalar</a>
-        <a href="qarz_daftar.html">Qarz daftar</a>
-        <a href="ishchilar.html">Ishchilar</a>
+    <!-- CHAP QOTIRILGAN SIDEBAR -->
+    <aside id="leftSidebar" class="left-sidebar">
+        <h6 class="sidebar-heading text-uppercase fw-bold">
+            <i class="bi bi-grid-1x2-fill text-info me-2"></i>Bo'limlar menyusi
+        </h6>
+        <nav class="nav flex-column gap-2">
+            <a href="dashboard.html" class="sidebar-link"><i class="bi bi-house-door-fill me-2"></i>Bosh sahifa</a>
+            <a href="omborxona.html" class="sidebar-link"><i class="bi bi-box-seam-fill me-2"></i>Omborxona</a>
+            <a href="sotuv.html" class="sidebar-link active"><i class="bi bi-cart-check-fill me-2"></i>Sotuv bo'limi</a>
+            <a href="kassa.html" class="sidebar-link"><i class="bi bi-wallet2 me-2"></i>Kassa</a>
+            <a href="buyurtmalar.html" class="sidebar-link"><i class="bi bi-clipboard-check-fill me-2"></i>Buyurtmalar</a>
+            <a href="qarz_daftar.html" class="sidebar-link"><i class="bi bi-journal-text me-2"></i>Qarz daftar</a>
+            <a href="ishchilar.html" class="sidebar-link"><i class="bi bi-people-fill me-2"></i>Ishchilar</a>
+        </nav>
     </aside>
 
-    <!-- Asosiy qism -->
+    <!-- ASOSIY SAHIFA KONTEYNERI -->
     <div class="page-wrapper">
         <main class="main-content">
-            
-            <div class="top-description">
-                <h2>Sotuv Bo'limi va Mahsulotlar Vitrini</h2>
-            </div>
+            <div class="container-fluid px-3 px-lg-4 py-4">
 
-            <!-- Mahsulotlar Vitrini (20 ta kartochka) -->
-            <div class="products-section">
-                <h3>Mahsulotlar katalogi (Vitrina)</h3>
-                
-                <div class="products-grid">
-                    
-                    <!-- 1-kartochka -->
-                    <div class="product-card">
-                        <div class="product-img-box">
-                            <img src="assets/rasm1.jpg" alt="Bolalar yozgi paxta ko'ylagi">
+                <!-- 2-ko'rsatkich: Matnlar dizayni -->
+                <div class="text-center pb-3 mb-4 border-bottom border-info border-opacity-25">
+                    <h1 class="display-5 fw-bold section-title mb-2">Sotuv Bo'limi va Mahsulotlar Vitrini</h1>
+                    <p class="lead opacity-75 mb-3">Erkaklar, ayollar va bolalar kiyimlari — ulgurji va chakana savdo katalogi</p>
+
+                    <!-- 4, 6 va 8-ko'rsatkichlar: Qidiruv, Kategoriya filtri va Popover -->
+                    <div class="d-flex flex-wrap justify-content-center align-items-center gap-2 mt-3">
+                        <div class="input-group input-group-sm" style="max-width: 280px;">
+                            <span class="input-group-text bg-dark border-info text-info"><i class="bi bi-search"></i></span>
+                            <input type="text" id="productSearch" class="form-control bg-dark text-white border-info" placeholder="Kiyim nomini qidiring...">
                         </div>
-                        <div class="product-prices"><span class="current-price">85,000 so'm</span><span class="old-price">110,000 so'm</span></div>
-                        <div class="product-title">Bolalar yozgi paxta ko'ylagi (Sifatli)</div>
-                        <div class="product-sizes"><span class="size-badge">S</span><span class="size-badge">M</span><span class="size-badge">L</span></div>
-                        <button class="order-btn">📦 Sotish / Buyurtma</button>
-                    </div>
 
-                    <!-- 2-kartochka -->
-                    <div class="product-card">
-                        <div class="product-img-box">
-                            <img src="assets/rasm2.jpg" alt="Ayollar bayramona shoyi ko'ylagi">
+                        <!-- 6-ko'rsatkich: Button Dropdown (Kategoriya filtri) -->
+                        <div class="btn-group btn-group-sm">
+                            <button type="button" class="btn btn-info text-white fw-semibold dropdown-toggle px-3" data-bs-toggle="dropdown" aria-expanded="false" id="catFilterBtn">
+                                <i class="bi bi-tags-fill me-1"></i>Toifa: Barchasi (20)
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-dark border-info">
+                                <li><button class="dropdown-item cat-option active" data-cat="all"><i class="bi bi-grid me-2 text-info"></i>Barchasi (20)</button></li>
+                                <li><button class="dropdown-item cat-option" data-cat="ayollar"><i class="bi bi-person-standing-dress me-2 text-danger"></i>Ayollar kiyimlari</button></li>
+                                <li><button class="dropdown-item cat-option" data-cat="erkaklar"><i class="bi bi-person-standing me-2 text-primary"></i>Erkaklar kiyimlari</button></li>
+                                <li><button class="dropdown-item cat-option" data-cat="bolalar"><i class="bi bi-emoji-smile me-2 text-success"></i>Bolalar kiyimlari</button></li>
+                            </ul>
                         </div>
-                        <div class="product-prices"><span class="current-price">145,000 so'm</span><span class="old-price">180,000 so'm</span></div>
-                        <div class="product-title">Ayollar bayramona shoyi ko'ylagi</div>
-                        <div class="product-sizes"><span class="size-badge">M</span><span class="size-badge">L</span><span class="size-badge">XL</span></div>
-                        <button class="order-btn">📦 Sotish / Buyurtma</button>
-                    </div>
 
-                    <!-- 3-kartochka -->
-                    <div class="product-card">
-                        <div class="product-img-box">
-                            <img src="assets/rasm3.jpg" alt="Erkaklar kostyum - shim">
+                        <!-- 8-ko'rsatkich: Popover -->
+                        <button type="button" class="btn btn-sm btn-outline-info fw-semibold px-3"
+                                data-bs-toggle="popover"
+                                data-bs-trigger="focus"
+                                data-bs-placement="bottom"
+                                data-bs-title="Ulgurji chegirmalar"
+                                data-bs-content="50 donadan ortiq buyurtmalarga qo'shimcha 10% chegirma va Samarqand viloyati bo'ylab bepul yetkazib berish mavjud!">
+                            <i class="bi bi-percent me-1"></i>Chegirma shartlari
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 5 va 9-ko'rsatkichlar: 20 ta Mahsulot Kartochkasi (Bootstrap Grid + Card) -->
+                <div class="row g-4" id="productsGrid">
+
+                    <!-- 1 -->
+                    <div class="col-sm-6 col-lg-4 col-xl-3 product-item" data-cat="bolalar">
+                        <div class="card custom-card product-glass-card h-100">
+                            <div class="product-img-wrap">
+                                <span class="discount-tag" data-bs-toggle="tooltip" title="25,000 so'm tejang">-23%</span>
+                                <span class="badge bg-success bg-opacity-75 cat-tag">Bolalar</span>
+                                <img src="assets/rasm1.jpg" class="img-fluid" alt="Bolalar yozgi paxta ko'ylagi">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                                        <span class="price-now">85,000 so'm</span>
+                                        <span class="price-old">110,000 so'm</span>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Bolalar yozgi paxta ko'ylagi (Sifatli)</h6>
+                                    <div class="d-flex flex-wrap gap-1 mb-3">
+                                        <span class="size-pill">S</span><span class="size-pill">M</span><span class="size-pill">L</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary buy-neon-btn w-100 py-2 open-order-btn" data-name="Bolalar yozgi paxta ko'ylagi (Sifatli)" data-price="85000">
+                                    <i class="bi bi-bag-plus-fill me-1"></i> Sotish / Buyurtma
+                                </button>
+                            </div>
                         </div>
-                        <div class="product-prices"><span class="current-price">210,000 so'm</span><span class="old-price">250,000 so'm</span></div>
-                        <div class="product-title">Erkaklar kostyum - shim</div>
-                        <div class="product-sizes"><span class="size-badge">XL</span><span class="size-badge">XXL</span><span class="size-badge">XXXL</span></div>
-                        <button class="order-btn">📦 Sotish / Buyurtma</button>
                     </div>
 
-                    <!-- 4-kartochka -->
-                    <div class="product-card">
-                        <div class="product-img-box">
-                            <img src="assets/rasm4.jpg" alt="Qizchalar uchun tungi nafis ko'ylak">
+                    <!-- 2 -->
+                    <div class="col-sm-6 col-lg-4 col-xl-3 product-item" data-cat="ayollar">
+                        <div class="card custom-card product-glass-card h-100">
+                            <div class="product-img-wrap">
+                                <span class="discount-tag" data-bs-toggle="tooltip" title="35,000 so'm tejang">-19%</span>
+                                <span class="badge bg-danger bg-opacity-75 cat-tag">Ayollar</span>
+                                <img src="assets/rasm2.jpg" class="img-fluid" alt="Ayollar bayramona shoyi ko'ylagi">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                                        <span class="price-now">145,000 so'm</span>
+                                        <span class="price-old">180,000 so'm</span>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Ayollar bayramona shoyi ko'ylagi</h6>
+                                    <div class="d-flex flex-wrap gap-1 mb-3">
+                                        <span class="size-pill">M</span><span class="size-pill">L</span><span class="size-pill">XL</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary buy-neon-btn w-100 py-2 open-order-btn" data-name="Ayollar bayramona shoyi ko'ylagi" data-price="145000">
+                                    <i class="bi bi-bag-plus-fill me-1"></i> Sotish / Buyurtma
+                                </button>
+                            </div>
                         </div>
-                        <div class="product-prices"><span class="current-price">75,000 so'm</span><span class="old-price">95,000 so'm</span></div>
-                        <div class="product-title">Qizchalar uchun tungi nafis ko'ylak</div>
-                        <div class="product-sizes"><span class="size-badge">S</span><span class="size-badge">M</span></div>
-                        <button class="order-btn">📦 Sotish / Buyurtma</button>
                     </div>
 
-                    <!-- 5-kartochka -->
-                    <div class="product-card">
-                        <div class="product-img-box">
-                            <img src="assets/rasm5.jpg" alt="Ayollar office uslubidagi qora ko'ylak">
+                    <!-- 3 -->
+                    <div class="col-sm-6 col-lg-4 col-xl-3 product-item" data-cat="erkaklar">
+                        <div class="card custom-card product-glass-card h-100">
+                            <div class="product-img-wrap">
+                                <span class="discount-tag" data-bs-toggle="tooltip" title="40,000 so'm tejang">-16%</span>
+                                <span class="badge bg-primary bg-opacity-75 cat-tag">Erkaklar</span>
+                                <img src="assets/rasm3.jpg" class="img-fluid" alt="Erkaklar kostyum - shim">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                                        <span class="price-now">210,000 so'm</span>
+                                        <span class="price-old">250,000 so'm</span>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Erkaklar kostyum - shim</h6>
+                                    <div class="d-flex flex-wrap gap-1 mb-3">
+                                        <span class="size-pill">XL</span><span class="size-pill">XXL</span><span class="size-pill">XXXL</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary buy-neon-btn w-100 py-2 open-order-btn" data-name="Erkaklar kostyum - shim" data-price="210000">
+                                    <i class="bi bi-bag-plus-fill me-1"></i> Sotish / Buyurtma
+                                </button>
+                            </div>
                         </div>
-                        <div class="product-prices"><span class="current-price">160,000 so'm</span><span class="old-price">190,000 so'm</span></div>
-                        <div class="product-title">Ayollar office uslubidagi qora ko'ylak</div>
-                        <div class="product-sizes"><span class="size-badge">M</span><span class="size-badge">L</span><span class="size-badge">XL</span></div>
-                        <button class="order-btn">📦 Sotish / Buyurtma</button>
                     </div>
 
-                    <!-- 6-kartochka -->
-                    <div class="product-card">
-                        <div class="product-img-box">
-                            <img src="assets/rasm6.jpg" alt="Bolalar maktab uchun oq ko'ylagi">
+                    <!-- 4 -->
+                    <div class="col-sm-6 col-lg-4 col-xl-3 product-item" data-cat="bolalar">
+                        <div class="card custom-card product-glass-card h-100">
+                            <div class="product-img-wrap">
+                                <span class="discount-tag" data-bs-toggle="tooltip" title="20,000 so'm tejang">-21%</span>
+                                <span class="badge bg-success bg-opacity-75 cat-tag">Bolalar</span>
+                                <img src="assets/rasm4.jpg" class="img-fluid" alt="Qizchalar uchun tungi nafis ko'ylak">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                                        <span class="price-now">75,000 so'm</span>
+                                        <span class="price-old">95,000 so'm</span>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Qizchalar uchun tungi nafis ko'ylak</h6>
+                                    <div class="d-flex flex-wrap gap-1 mb-3">
+                                        <span class="size-pill">S</span><span class="size-pill">M</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary buy-neon-btn w-100 py-2 open-order-btn" data-name="Qizchalar uchun tungi nafis ko'ylak" data-price="75000">
+                                    <i class="bi bi-bag-plus-fill me-1"></i> Sotish / Buyurtma
+                                </button>
+                            </div>
                         </div>
-                        <div class="product-prices"><span class="current-price">125,000 so'm</span><span class="old-price">150,000 so'm</span></div>
-                        <div class="product-title">Bolalar maktab uchun oq ko'ylagi</div>
-                        <div class="product-sizes"><span class="size-badge">S</span><span class="size-badge">M</span><span class="size-badge">L</span></div>
-                        <button class="order-btn">📦 Sotish / Buyurtma</button>
                     </div>
 
-                    <!-- 7-kartochka -->
-                    <div class="product-card">
-                        <div class="product-img-box">
-                            <img src="assets/rasm7.png" alt="Ayollar qishki qalin velvet ko'ylagi">
+                    <!-- 5 -->
+                    <div class="col-sm-6 col-lg-4 col-xl-3 product-item" data-cat="ayollar">
+                        <div class="card custom-card product-glass-card h-100">
+                            <div class="product-img-wrap">
+                                <span class="discount-tag">-16%</span>
+                                <span class="badge bg-danger bg-opacity-75 cat-tag">Ayollar</span>
+                                <img src="assets/rasm5.jpg" class="img-fluid" alt="Ayollar office uslubidagi qora ko'ylak">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                                        <span class="price-now">160,000 so'm</span>
+                                        <span class="price-old">190,000 so'm</span>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Ayollar office uslubidagi qora ko'ylak</h6>
+                                    <div class="d-flex flex-wrap gap-1 mb-3">
+                                        <span class="size-pill">M</span><span class="size-pill">L</span><span class="size-pill">XL</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary buy-neon-btn w-100 py-2 open-order-btn" data-name="Ayollar office uslubidagi qora ko'ylak" data-price="160000">
+                                    <i class="bi bi-bag-plus-fill me-1"></i> Sotish / Buyurtma
+                                </button>
+                            </div>
                         </div>
-                        <div class="product-prices"><span class="current-price">230,000 so'm</span><span class="old-price">270,000 so'm</span></div>
-                        <div class="product-title">Ayollar qishki qalin velvet ko'ylagi</div>
-                        <div class="product-sizes"><span class="size-badge">L</span><span class="size-badge">XL</span><span class="size-badge">XXL</span></div>
-                        <button class="order-btn">📦 Sotish / Buyurtma</button>
                     </div>
 
-                    <!-- 8-kartochka -->
-                    <div class="product-card">
-                        <div class="product-img-box">
-                            <img src="assets/rasm8.png" alt="Bolalar sport uslubidagi yorqin ko'ylak">
+                    <!-- 6 -->
+                    <div class="col-sm-6 col-lg-4 col-xl-3 product-item" data-cat="bolalar">
+                        <div class="card custom-card product-glass-card h-100">
+                            <div class="product-img-wrap">
+                                <span class="discount-tag">-17%</span>
+                                <span class="badge bg-success bg-opacity-75 cat-tag">Bolalar</span>
+                                <img src="assets/rasm6.jpg" class="img-fluid" alt="Bolalar maktab uchun oq ko'ylagi">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                                        <span class="price-now">125,000 so'm</span>
+                                        <span class="price-old">150,000 so'm</span>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Bolalar maktab uchun oq ko'ylagi</h6>
+                                    <div class="d-flex flex-wrap gap-1 mb-3">
+                                        <span class="size-pill">S</span><span class="size-pill">M</span><span class="size-pill">L</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary buy-neon-btn w-100 py-2 open-order-btn" data-name="Bolalar maktab uchun oq ko'ylagi" data-price="125000">
+                                    <i class="bi bi-bag-plus-fill me-1"></i> Sotish / Buyurtma
+                                </button>
+                            </div>
                         </div>
-                        <div class="product-prices"><span class="current-price">95,000 so'm</span><span class="old-price">120,000 so'm</span></div>
-                        <div class="product-title">Bolalar sport uslubidagi yorqin ko'ylak</div>
-                        <div class="product-sizes"><span class="size-badge">S</span><span class="size-badge">M</span></div>
-                        <button class="order-btn">📦 Sotish / Buyurtma</button>
                     </div>
 
-                    <!-- 9-kartochka -->
-                    <div class="product-card">
-                        <div class="product-img-box">
-                            <img src="assets/rasm9.png" alt="Ayollar atlas va adras ko'ylak">
+                    <!-- 7 -->
+                    <div class="col-sm-6 col-lg-4 col-xl-3 product-item" data-cat="ayollar">
+                        <div class="card custom-card product-glass-card h-100">
+                            <div class="product-img-wrap">
+                                <span class="discount-tag">-15%</span>
+                                <span class="badge bg-danger bg-opacity-75 cat-tag">Ayollar</span>
+                                <img src="assets/rasm7.png" class="img-fluid" alt="Ayollar qishki qalin velvet ko'ylagi">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                                        <span class="price-now">230,000 so'm</span>
+                                        <span class="price-old">270,000 so'm</span>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Ayollar qishki qalin velvet ko'ylagi</h6>
+                                    <div class="d-flex flex-wrap gap-1 mb-3">
+                                        <span class="size-pill">L</span><span class="size-pill">XL</span><span class="size-pill">XXL</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary buy-neon-btn w-100 py-2 open-order-btn" data-name="Ayollar qishki qalin velvet ko'ylagi" data-price="230000">
+                                    <i class="bi bi-bag-plus-fill me-1"></i> Sotish / Buyurtma
+                                </button>
+                            </div>
                         </div>
-                        <div class="product-prices"><span class="current-price">180,000 so'm</span><span class="old-price">210,000 so'm</span></div>
-                        <div class="product-title">Ayollar atlas va adras qorishmali ko'ylak</div>
-                        <div class="product-sizes"><span class="size-badge">M</span><span class="size-badge">L</span><span class="size-badge">XL</span><span class="size-badge">XXL</span></div>
-                        <button class="order-btn">📦 Sotish / Buyurtma</button>
                     </div>
 
-                    <!-- 10-kartochka -->
-                    <div class="product-card">
-                        <div class="product-img-box">
-                            <img src="assets/rasm10.png" alt="Premium toifa maxsus ayollar to'y ko'ylagi">
+                    <!-- 8 -->
+                    <div class="col-sm-6 col-lg-4 col-xl-3 product-item" data-cat="bolalar">
+                        <div class="card custom-card product-glass-card h-100">
+                            <div class="product-img-wrap">
+                                <span class="discount-tag">-21%</span>
+                                <span class="badge bg-success bg-opacity-75 cat-tag">Bolalar</span>
+                                <img src="assets/rasm8.png" class="img-fluid" alt="Bolalar sport uslubidagi yorqin ko'ylak">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                                        <span class="price-now">95,000 so'm</span>
+                                        <span class="price-old">120,000 so'm</span>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Bolalar sport uslubidagi yorqin ko'ylak</h6>
+                                    <div class="d-flex flex-wrap gap-1 mb-3">
+                                        <span class="size-pill">S</span><span class="size-pill">M</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary buy-neon-btn w-100 py-2 open-order-btn" data-name="Bolalar sport uslubidagi yorqin ko'ylak" data-price="95000">
+                                    <i class="bi bi-bag-plus-fill me-1"></i> Sotish / Buyurtma
+                                </button>
+                            </div>
                         </div>
-                        <div class="product-prices"><span class="current-price">250,000 so'm</span><span class="old-price">290,000 so'm</span></div>
-                        <div class="product-title">Premium toifa maxsus ayollar to'y ko'ylagi</div>
-                        <div class="product-sizes"><span class="size-badge">XL</span><span class="size-badge">XXL</span><span class="size-badge">XXXL</span></div>
-                        <button class="order-btn">📦 Sotish / Buyurtma</button>
                     </div>
 
-                    <!-- 11-kartochka -->
-                    <div class="product-card">
-                        <div class="product-img-box"><img src="assets/rasm11.png" alt="Bolalar kundalik ko'ylak"></div>
-                        <div class="product-prices"><span class="current-price">88,000 so'm</span><span class="old-price">110,000 so'm</span></div>
-                        <div class="product-title">Bolalar kundalik kiyish uchun ko'ylak</div>
-                        <div class="product-sizes"><span class="size-badge">S</span><span class="size-badge">M</span></div>
-                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    <!-- 9 -->
+                    <div class="col-sm-6 col-lg-4 col-xl-3 product-item" data-cat="ayollar">
+                        <div class="card custom-card product-glass-card h-100">
+                            <div class="product-img-wrap">
+                                <span class="discount-tag">-14%</span>
+                                <span class="badge bg-danger bg-opacity-75 cat-tag">Ayollar</span>
+                                <img src="assets/rasm9.png" class="img-fluid" alt="Ayollar atlas va adras ko'ylak">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                                        <span class="price-now">180,000 so'm</span>
+                                        <span class="price-old">210,000 so'm</span>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Ayollar atlas va adras qorishmali ko'ylak</h6>
+                                    <div class="d-flex flex-wrap gap-1 mb-3">
+                                        <span class="size-pill">M</span><span class="size-pill">L</span><span class="size-pill">XL</span><span class="size-pill">XXL</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary buy-neon-btn w-100 py-2 open-order-btn" data-name="Ayollar atlas va adras qorishmali ko'ylak" data-price="180000">
+                                    <i class="bi bi-bag-plus-fill me-1"></i> Sotish / Buyurtma
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- 12-kartochka -->
-                    <div class="product-card">
-                        <div class="product-img-box"><img src="assets/rasm12.png" alt="Ayollar bahorgi tunika"></div>
-                        <div class="product-prices"><span class="current-price">135,000 so'm</span><span class="old-price">160,000 so'm</span></div>
-                        <div class="product-title">Ayollar bahorgi yengil tunika ko'ylak</div>
-                        <div class="product-sizes"><span class="size-badge">M</span><span class="size-badge">L</span><span class="size-badge">XL</span></div>
-                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    <!-- 10 -->
+                    <div class="col-sm-6 col-lg-4 col-xl-3 product-item" data-cat="ayollar">
+                        <div class="card custom-card product-glass-card h-100">
+                            <div class="product-img-wrap">
+                                <span class="discount-tag">-14%</span>
+                                <span class="badge bg-danger bg-opacity-75 cat-tag">Ayollar</span>
+                                <img src="assets/rasm10.png" class="img-fluid" alt="Premium toifa maxsus ayollar to'y ko'ylagi">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                                        <span class="price-now">250,000 so'm</span>
+                                        <span class="price-old">290,000 so'm</span>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Premium toifa maxsus ayollar to'y ko'ylagi</h6>
+                                    <div class="d-flex flex-wrap gap-1 mb-3">
+                                        <span class="size-pill">XL</span><span class="size-pill">XXL</span><span class="size-pill">XXXL</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary buy-neon-btn w-100 py-2 open-order-btn" data-name="Premium toifa maxsus ayollar to'y ko'ylagi" data-price="250000">
+                                    <i class="bi bi-bag-plus-fill me-1"></i> Sotish / Buyurtma
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- 13-kartochka -->
-                    <div class="product-card">
-                        <div class="product-img-box"><img src="assets/rasm13.png" alt="Ayollar uzun ko'ylak"></div>
-                        <div class="product-prices"><span class="current-price">195,000 so'm</span><span class="old-price">230,000 so'm</span></div>
-                        <div class="product-title">Ayollar zamonaviy dizaynli uzun ko'ylak</div>
-                        <div class="product-sizes"><span class="size-badge">L</span><span class="size-badge">XL</span><span class="size-badge">XXL</span></div>
-                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    <!-- 11 -->
+                    <div class="col-sm-6 col-lg-4 col-xl-3 product-item" data-cat="bolalar">
+                        <div class="card custom-card product-glass-card h-100">
+                            <div class="product-img-wrap">
+                                <span class="discount-tag">-20%</span>
+                                <span class="badge bg-success bg-opacity-75 cat-tag">Bolalar</span>
+                                <img src="assets/rasm11.png" class="img-fluid" alt="Bolalar kundalik ko'ylak">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                                        <span class="price-now">88,000 so'm</span>
+                                        <span class="price-old">110,000 so'm</span>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Bolalar kundalik kiyish uchun ko'ylak</h6>
+                                    <div class="d-flex flex-wrap gap-1 mb-3">
+                                        <span class="size-pill">S</span><span class="size-pill">M</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary buy-neon-btn w-100 py-2 open-order-btn" data-name="Bolalar kundalik kiyish uchun ko'ylak" data-price="88000">
+                                    <i class="bi bi-bag-plus-fill me-1"></i> Sotish / Buyurtma
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- 14-kartochka -->
-                    <div class="product-card">
-                        <div class="product-img-box"><img src="assets/rasm14.png" alt="Qizchalar bayramona ko'ylak"></div>
-                        <div class="product-prices"><span class="current-price">92,000 so'm</span><span class="old-price">115,000 so'm</span></div>
-                        <div class="product-title">Qizchalar uchun bayramona rangli ko'ylak</div>
-                        <div class="product-sizes"><span class="size-badge">S</span><span class="size-badge">M</span><span class="size-badge">L</span></div>
-                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    <!-- 12 -->
+                    <div class="col-sm-6 col-lg-4 col-xl-3 product-item" data-cat="ayollar">
+                        <div class="card custom-card product-glass-card h-100">
+                            <div class="product-img-wrap">
+                                <span class="discount-tag">-16%</span>
+                                <span class="badge bg-danger bg-opacity-75 cat-tag">Ayollar</span>
+                                <img src="assets/rasm12.png" class="img-fluid" alt="Ayollar bahorgi tunika">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                                        <span class="price-now">135,000 so'm</span>
+                                        <span class="price-old">160,000 so'm</span>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Ayollar bahorgi yengil tunika ko'ylak</h6>
+                                    <div class="d-flex flex-wrap gap-1 mb-3">
+                                        <span class="size-pill">M</span><span class="size-pill">L</span><span class="size-pill">XL</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary buy-neon-btn w-100 py-2 open-order-btn" data-name="Ayollar bahorgi yengil tunika ko'ylak" data-price="135000">
+                                    <i class="bi bi-bag-plus-fill me-1"></i> Sotish / Buyurtma
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- 15-kartochka -->
-                    <div class="product-card">
-                        <div class="product-img-box"><img src="assets/rasm15.png" alt="Ayollar milliy ko'ylak"></div>
-                        <div class="product-prices"><span class="current-price">175,000 so'm</span><span class="old-price">200,000 so'm</span></div>
-                        <div class="product-title">Ayollar milliy matodan tikilgan ko'ylak</div>
-                        <div class="product-sizes"><span class="size-badge">M</span><span class="size-badge">L</span><span class="size-badge">XXL</span></div>
-                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    <!-- 13 -->
+                    <div class="col-sm-6 col-lg-4 col-xl-3 product-item" data-cat="ayollar">
+                        <div class="card custom-card product-glass-card h-100">
+                            <div class="product-img-wrap">
+                                <span class="discount-tag">-15%</span>
+                                <span class="badge bg-danger bg-opacity-75 cat-tag">Ayollar</span>
+                                <img src="assets/rasm13.png" class="img-fluid" alt="Ayollar uzun ko'ylak">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                                        <span class="price-now">195,000 so'm</span>
+                                        <span class="price-old">230,000 so'm</span>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Ayollar zamonaviy dizaynli uzun ko'ylak</h6>
+                                    <div class="d-flex flex-wrap gap-1 mb-3">
+                                        <span class="size-pill">L</span><span class="size-pill">XL</span><span class="size-pill">XXL</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary buy-neon-btn w-100 py-2 open-order-btn" data-name="Ayollar zamonaviy dizaynli uzun ko'ylak" data-price="195000">
+                                    <i class="bi bi-bag-plus-fill me-1"></i> Sotish / Buyurtma
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- 16-kartochka -->
-                    <div class="product-card">
-                        <div class="product-img-box"><img src="assets/rasm16.png" alt="Bolalar jinsi ko'ylagi"></div>
-                        <div class="product-prices"><span class="current-price">110,000 so'm</span><span class="old-price">135,000 so'm</span></div>
-                        <div class="product-title">Bolalar jinsi matoli qulay ko'ylak</div>
-                        <div class="product-sizes"><span class="size-badge">S</span><span class="size-badge">M</span></div>
-                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    <!-- 14 -->
+                    <div class="col-sm-6 col-lg-4 col-xl-3 product-item" data-cat="bolalar">
+                        <div class="card custom-card product-glass-card h-100">
+                            <div class="product-img-wrap">
+                                <span class="discount-tag">-20%</span>
+                                <span class="badge bg-success bg-opacity-75 cat-tag">Bolalar</span>
+                                <img src="assets/rasm14.png" class="img-fluid" alt="Qizchalar bayramona ko'ylak">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                                        <span class="price-now">92,000 so'm</span>
+                                        <span class="price-old">115,000 so'm</span>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Qizchalar uchun bayramona rangli ko'ylak</h6>
+                                    <div class="d-flex flex-wrap gap-1 mb-3">
+                                        <span class="size-pill">S</span><span class="size-pill">M</span><span class="size-pill">L</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary buy-neon-btn w-100 py-2 open-order-btn" data-name="Qizchalar uchun bayramona rangli ko'ylak" data-price="92000">
+                                    <i class="bi bi-bag-plus-fill me-1"></i> Sotish / Buyurtma
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- 17-kartochka -->
-                    <div class="product-card">
-                        <div class="product-img-box"><img src="assets/rasm17.png" alt="Ayollar trikotaj ko'ylagi"></div>
-                        <div class="product-prices"><span class="current-price">215,000 so'm</span><span class="old-price">245,000 so'm</span></div>
-                        <div class="product-title">Ayollar qishki qalin trikotaj ko'ylagi</div>
-                        <div class="product-sizes"><span class="size-badge">XL</span><span class="size-badge">XXL</span><span class="size-badge">XXXL</span></div>
-                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    <!-- 15 -->
+                    <div class="col-sm-6 col-lg-4 col-xl-3 product-item" data-cat="ayollar">
+                        <div class="card custom-card product-glass-card h-100">
+                            <div class="product-img-wrap">
+                                <span class="discount-tag">-13%</span>
+                                <span class="badge bg-danger bg-opacity-75 cat-tag">Ayollar</span>
+                                <img src="assets/rasm15.png" class="img-fluid" alt="Ayollar milliy ko'ylak">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                                        <span class="price-now">175,000 so'm</span>
+                                        <span class="price-old">200,000 so'm</span>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Ayollar milliy matodan tikilgan ko'ylak</h6>
+                                    <div class="d-flex flex-wrap gap-1 mb-3">
+                                        <span class="size-pill">M</span><span class="size-pill">L</span><span class="size-pill">XXL</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary buy-neon-btn w-100 py-2 open-order-btn" data-name="Ayollar milliy matodan tikilgan ko'ylak" data-price="175000">
+                                    <i class="bi bi-bag-plus-fill me-1"></i> Sotish / Buyurtma
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- 18-kartochka -->
-                    <div class="product-card">
-                        <div class="product-img-box"><img src="assets/rasm18.png" alt="Sport formasi"></div>
-                        <div class="product-prices"><span class="current-price">98,000 so'm</span><span class="old-price">120,000 so'm</span></div>
-                        <div class="product-title">Sport formasi</div>
-                        <div class="product-sizes"><span class="size-badge">S</span><span class="size-badge">M</span><span class="size-badge">L</span></div>
-                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    <!-- 16 -->
+                    <div class="col-sm-6 col-lg-4 col-xl-3 product-item" data-cat="bolalar">
+                        <div class="card custom-card product-glass-card h-100">
+                            <div class="product-img-wrap">
+                                <span class="discount-tag">-19%</span>
+                                <span class="badge bg-success bg-opacity-75 cat-tag">Bolalar</span>
+                                <img src="assets/rasm16.png" class="img-fluid" alt="Bolalar jinsi ko'ylagi">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                                        <span class="price-now">110,000 so'm</span>
+                                        <span class="price-old">135,000 so'm</span>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Bolalar jinsi matoli qulay ko'ylak</h6>
+                                    <div class="d-flex flex-wrap gap-1 mb-3">
+                                        <span class="size-pill">S</span><span class="size-pill">M</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary buy-neon-btn w-100 py-2 open-order-btn" data-name="Bolalar jinsi matoli qulay ko'ylak" data-price="110000">
+                                    <i class="bi bi-bag-plus-fill me-1"></i> Sotish / Buyurtma
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- 19-kartochka -->
-                    <div class="product-card">
-                        <div class="product-img-box"><img src="assets/rasm19.png" alt="Erkaklar ko'ylagi"></div>
-                        <div class="product-prices"><span class="current-price">155,000 so'm</span><span class="old-price">185,000 so'm</span></div>
-                        <div class="product-title">Erkaklar ko'ylagi</div>
-                        <div class="product-sizes"><span class="size-badge">M</span><span class="size-badge">L</span><span class="size-badge">XL</span></div>
-                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    <!-- 17 -->
+                    <div class="col-sm-6 col-lg-4 col-xl-3 product-item" data-cat="ayollar">
+                        <div class="card custom-card product-glass-card h-100">
+                            <div class="product-img-wrap">
+                                <span class="discount-tag">-12%</span>
+                                <span class="badge bg-danger bg-opacity-75 cat-tag">Ayollar</span>
+                                <img src="assets/rasm17.png" class="img-fluid" alt="Ayollar trikotaj ko'ylagi">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                                        <span class="price-now">215,000 so'm</span>
+                                        <span class="price-old">245,000 so'm</span>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Ayollar qishki qalin trikotaj ko'ylagi</h6>
+                                    <div class="d-flex flex-wrap gap-1 mb-3">
+                                        <span class="size-pill">XL</span><span class="size-pill">XXL</span><span class="size-pill">XXXL</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary buy-neon-btn w-100 py-2 open-order-btn" data-name="Ayollar qishki qalin trikotaj ko'ylagi" data-price="215000">
+                                    <i class="bi bi-bag-plus-fill me-1"></i> Sotish / Buyurtma
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- 20-kartochka -->
-                    <div class="product-card">
-                        <div class="product-img-box"><img src="assets/rasm20.png" alt="Erkaklar prezidenskiy kurtka"></div>
-                        <div class="product-prices"><span class="current-price">240,000 so'm</span><span class="old-price">280,000 so'm</span></div>
-                        <div class="product-title">Erkaklar prezidenskiy kurtka</div>
-                        <div class="product-sizes"><span class="size-badge">L</span><span class="size-badge">XL</span><span class="size-badge">XXL</span><span class="size-badge">XXXL</span></div>
-                        <button class="order-btn">📦 Sotish / Buyurtma</button>
+                    <!-- 18 -->
+                    <div class="col-sm-6 col-lg-4 col-xl-3 product-item" data-cat="erkaklar">
+                        <div class="card custom-card product-glass-card h-100">
+                            <div class="product-img-wrap">
+                                <span class="discount-tag">-18%</span>
+                                <span class="badge bg-primary bg-opacity-75 cat-tag">Erkaklar</span>
+                                <img src="assets/rasm18.png" class="img-fluid" alt="Sport formasi">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                                        <span class="price-now">98,000 so'm</span>
+                                        <span class="price-old">120,000 so'm</span>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Sport formasi</h6>
+                                    <div class="d-flex flex-wrap gap-1 mb-3">
+                                        <span class="size-pill">S</span><span class="size-pill">M</span><span class="size-pill">L</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary buy-neon-btn w-100 py-2 open-order-btn" data-name="Sport formasi" data-price="98000">
+                                    <i class="bi bi-bag-plus-fill me-1"></i> Sotish / Buyurtma
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 19 -->
+                    <div class="col-sm-6 col-lg-4 col-xl-3 product-item" data-cat="erkaklar">
+                        <div class="card custom-card product-glass-card h-100">
+                            <div class="product-img-wrap">
+                                <span class="discount-tag">-16%</span>
+                                <span class="badge bg-primary bg-opacity-75 cat-tag">Erkaklar</span>
+                                <img src="assets/rasm19.png" class="img-fluid" alt="Erkaklar ko'ylagi">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                                        <span class="price-now">155,000 so'm</span>
+                                        <span class="price-old">185,000 so'm</span>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Erkaklar ko'ylagi</h6>
+                                    <div class="d-flex flex-wrap gap-1 mb-3">
+                                        <span class="size-pill">M</span><span class="size-pill">L</span><span class="size-pill">XL</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary buy-neon-btn w-100 py-2 open-order-btn" data-name="Erkaklar ko'ylagi" data-price="155000">
+                                    <i class="bi bi-bag-plus-fill me-1"></i> Sotish / Buyurtma
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 20 -->
+                    <div class="col-sm-6 col-lg-4 col-xl-3 product-item" data-cat="erkaklar">
+                        <div class="card custom-card product-glass-card h-100">
+                            <div class="product-img-wrap">
+                                <span class="discount-tag">-14%</span>
+                                <span class="badge bg-primary bg-opacity-75 cat-tag">Erkaklar</span>
+                                <img src="assets/rasm20.png" class="img-fluid" alt="Erkaklar prezidenskiy kurtka">
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-baseline gap-2 mb-1">
+                                        <span class="price-now">240,000 so'm</span>
+                                        <span class="price-old">280,000 so'm</span>
+                                    </div>
+                                    <h6 class="fw-bold mb-2">Erkaklar prezidenskiy kurtka</h6>
+                                    <div class="d-flex flex-wrap gap-1 mb-3">
+                                        <span class="size-pill">L</span><span class="size-pill">XL</span><span class="size-pill">XXL</span><span class="size-pill">XXXL</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary buy-neon-btn w-100 py-2 open-order-btn" data-name="Erkaklar prezidenskiy kurtka" data-price="240000">
+                                    <i class="bi bi-bag-plus-fill me-1"></i> Sotish / Buyurtma
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
             </div>
-
         </main>
 
-        <!-- Footer -->
-        <footer>
-            <div>
-                <span class="footer-status">● Tizim holati: Faol (Online)</span>
-            </div>
-            <div>
-                &copy; 2026 "Urgutni ko'ylaklari" korxonasi. Sotuv bo'limi.
-            </div>
-            <div>
-                <strong>Dasturchi:</strong> Xalimov Azizjon | Urgut
+        <!-- NOODATIY FUTURISTIK NEON FOOTER -->
+        <footer class="ultra-footer position-relative mt-5 pt-5 pb-4">
+            <div class="footer-neon-line"></div>
+            <a href="#" class="back-to-top-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Sahifa boshiga qaytish">
+                <i class="bi bi-arrow-up-short fs-3"></i>
+            </a>
+
+            <div class="container-fluid px-3 px-lg-5 position-relative" style="z-index: 2;">
+                <div class="row g-4 mb-4">
+                    <div class="col-lg-4">
+                        <div class="footer-glass-card h-100 p-4 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="d-flex align-items-center gap-3 mb-3">
+                                    <div class="logo-wrapper">
+                                        <img src="assets/logo.png" alt="Logotip" class="logo-img">
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold mb-0 footer-brand-title">"Urgutning ko'ylaklari"</h5>
+                                        <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 rounded-pill mt-1">
+                                            Sotuv moduli
+                                        </span>
+                                    </div>
+                                </div>
+                                <p class="small text-light text-opacity-75 mb-4">
+                                    Erkaklar, ayollar va bolalar uchun eng sifatli, zamonaviy va qulay ko'ylaklarni ishlab chiqarish hamda hududlar bo'ylab yetkazib berish korxonasi.
+                                </p>
+                            </div>
+                            <div class="live-status-pill d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill align-self-start">
+                                <span class="pulse-dot"></span>
+                                <span class="small fw-semibold text-success">Tizim holati: Faol (Online)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="footer-glass-card h-100 p-4">
+                            <h6 class="text-uppercase fw-bold text-info mb-3">
+                                <i class="bi bi-lightning-charge-fill me-2"></i>Tezkor bo'limlar
+                            </h6>
+                            <div class="row g-2">
+                                <div class="col-6"><a href="dashboard.html" class="footer-chip-link"><i class="bi bi-house-door me-2"></i>Bosh sahifa</a></div>
+                                <div class="col-6"><a href="omborxona.html" class="footer-chip-link"><i class="bi bi-box-seam me-2"></i>Omborxona</a></div>
+                                <div class="col-6"><a href="sotuv.html" class="footer-chip-link"><i class="bi bi-cart-check me-2"></i>Sotuv bo'limi</a></div>
+                                <div class="col-6"><a href="kassa.html" class="footer-chip-link"><i class="bi bi-wallet2 me-2"></i>Kassa</a></div>
+                                <div class="col-6"><a href="buyurtmalar.html" class="footer-chip-link"><i class="bi bi-clipboard-check me-2"></i>Buyurtmalar</a></div>
+                                <div class="col-6"><a href="qarz_daftar.html" class="footer-chip-link"><i class="bi bi-journal-text me-2"></i>Qarz daftar</a></div>
+                                <div class="col-12"><a href="ishchilar.html" class="footer-chip-link"><i class="bi bi-people me-2"></i>Xodimlar bo'limi</a></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="footer-glass-card h-100 p-4 d-flex flex-column justify-content-between">
+                            <div>
+                                <h6 class="text-uppercase fw-bold text-info mb-3">
+                                    <i class="bi bi-headset me-2"></i>Aloqa markazi
+                                </h6>
+                                <ul class="list-unstyled d-flex flex-column gap-2 small mb-4">
+                                    <li class="d-flex align-items-center gap-2 text-light text-opacity-75"><i class="bi bi-geo-alt-fill text-danger fs-6"></i><span>Urgut iqtisodiy zonasi, Samarqand</span></li>
+                                    <li class="d-flex align-items-center gap-2"><i class="bi bi-telephone-fill text-success fs-6"></i><a href="tel:+998942661379" class="text-light text-decoration-none hover-cyan">+998 94 266 13 79</a></li>
+                                    <li class="d-flex align-items-center gap-2"><i class="bi bi-envelope-fill text-info fs-6"></i><a href="mailto:xalimovazizjon31@gmail.com" class="text-light text-decoration-none hover-cyan">xalimovazizjon31@gmail.com</a></li>
+                                </ul>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <a href="https://t.me/KXalimov_Azizjon" target="_blank" class="social-neon-btn telegram" data-bs-toggle="tooltip" title="Telegram: @KXalimov_Azizjon"><i class="bi bi-telegram fs-5"></i></a>
+                                <a href="https://www.instagram.com/xalimovazizjon31/" target="_blank" class="social-neon-btn instagram" data-bs-toggle="tooltip" title="Instagram: @xalimovazizjon31"><i class="bi bi-instagram fs-5"></i></a>
+                                <a href="tel:+998942661379" class="social-neon-btn phone" data-bs-toggle="tooltip" title="Qo'ng'iroq qilish"><i class="bi bi-telephone-outbound-fill fs-5"></i></a>
+                                <a href="mailto:xalimovazizjon31@gmail.com" class="social-neon-btn email" data-bs-toggle="tooltip" title="Email yuborish"><i class="bi bi-envelope-at-fill fs-5"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-bottom-bar rounded-4 px-4 py-3 d-flex flex-wrap justify-content-between align-items-center gap-2 small">
+                    <div class="text-light text-opacity-75">&copy; 2026 <strong class="text-white">"Urgutning ko'ylaklari"</strong> korxonasi. Sotuv bo'limi.</div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="text-light text-opacity-75">Ishlab chiquvchi:</span>
+                        <span class="dev-badge px-3 py-1 rounded-pill fw-bold"><i class="bi bi-code-slash me-1"></i>Xalimov Azizjon | Urgut</span>
+                    </div>
+                </div>
             </div>
         </footer>
     </div>
 
+    <!-- 4-ko'rsatkich: Bootstrap Modal + Buyurtma Formasi -->
+    <div class="modal fade" id="orderModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white border border-info rounded-4 shadow-lg">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title text-info fw-bold"><i class="bi bi-cart-check-fill me-2"></i>Tezkor sotuv / Buyurtma</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="orderForm">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label small text-secondary">Tanlangan mahsulot</label>
+                            <input type="text" id="modalProductName" class="form-control bg-secondary bg-opacity-25 text-white border-secondary" readonly>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-6">
+                                <label class="form-label small text-secondary">O'lchami</label>
+                                <select class="form-select bg-dark text-white border-info">
+                                    <option>S</option><option>M</option><option selected>L</option><option>XL</option><option>XXL</option><option>XXXL</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small text-secondary">Soni (dona)</label>
+                                <input type="number" id="modalQty" class="form-control bg-dark text-white border-info" value="1" min="1" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small text-secondary">Mijoz ismi / Do'kon nomi</label>
+                            <input type="text" class="form-control bg-dark text-white border-info" placeholder="Masalan: Urgut savdo markazi" required>
+                        </div>
+                        <div class="p-3 rounded-3 bg-info bg-opacity-10 border border-info border-opacity-25 d-flex justify-content-between align-items-center">
+                            <span class="small fw-semibold">Jami summa:</span>
+                            <span class="fs-5 fw-bold text-info" id="modalTotalPrice">0 so'm</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-secondary">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Bekor qilish</button>
+                        <button type="submit" class="btn btn-info text-white fw-bold px-4"><i class="bi bi-check2-circle me-1"></i>Tasdiqlash</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Tooltiplar va Popoverlarni faollashtirish
+        [...document.querySelectorAll('[data-bs-toggle="tooltip"]')].map(el => new bootstrap.Tooltip(el));
+        [...document.querySelectorAll('[data-bs-toggle="popover"]')].map(el => new bootstrap.Popover(el));
+
+        // Chap Sidebarni yopish/ochish
+        document.getElementById('menuToggleBtn').addEventListener('click', () => {
+            if (window.innerWidth >= 992) {
+                document.body.classList.toggle('sidebar-collapsed');
+            } else {
+                document.body.classList.toggle('sidebar-open');
+            }
+        });
+
+        // Tonggi / Tungi rejim
+        const themeBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            themeIcon.className = isLight ? 'bi bi-moon-stars-fill me-1' : 'bi bi-sun-fill me-1';
+            themeText.textContent = isLight ? 'Tungi rejim' : 'Tonggi rejim';
+        });
+
+        // Jonli qidiruv va Kategoriya filtri
+        const searchInput = document.getElementById('productSearch');
+        const catOptions = document.querySelectorAll('.cat-option');
+        const catFilterBtn = document.getElementById('catFilterBtn');
+        const productItems = document.querySelectorAll('.product-item');
+        let activeCat = 'all';
+
+        function filterProducts() {
+            const q = searchInput.value.toLowerCase();
+            productItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                const cat = item.getAttribute('data-cat');
+                item.style.display = (text.includes(q) && (activeCat === 'all' || cat === activeCat)) ? '' : 'none';
+            });
+        }
+
+        searchInput.addEventListener('input', filterProducts);
+        catOptions.forEach(btn => {
+            btn.addEventListener('click', () => {
+                catOptions.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeCat = btn.getAttribute('data-cat');
+                catFilterBtn.innerHTML = `<i class="bi bi-tags-fill me-1"></i>Toifa: ${btn.textContent.trim()}`;
+                filterProducts();
+            });
+        });
+
+        // Sotish / Buyurtma Modal oynasi
+        const orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
+        const modalProductName = document.getElementById('modalProductName');
+        const modalQty = document.getElementById('modalQty');
+        const modalTotalPrice = document.getElementById('modalTotalPrice');
+        let currentUnitPrice = 0;
+
+        function updateTotal() {
+            const total = currentUnitPrice * (parseInt(modalQty.value) || 1);
+            modalTotalPrice.textContent = total.toLocaleString('uz-UZ') + " so'm";
+        }
+
+        document.querySelectorAll('.open-order-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                modalProductName.value = btn.getAttribute('data-name');
+                currentUnitPrice = parseInt(btn.getAttribute('data-price'));
+                modalQty.value = 1;
+                updateTotal();
+                orderModal.show();
+            });
+        });
+
+        modalQty.addEventListener('input', updateTotal);
+
+        document.getElementById('orderForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            orderModal.hide();
+            alert("Buyurtma muvaffaqiyatli rasmiylashtirildi!");
+        });
+    </script>
 </body>
 </html>

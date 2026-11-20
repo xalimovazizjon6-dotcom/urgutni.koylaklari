@@ -2,497 +2,510 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <title>👕 "Urgutni ko'ylaklari" - Kassa va Moliya Bo'limi</title>
+    <!-- 1-ko'rsatkich: Moslashuvchanlik (Responsive) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👕 "Urgutning ko'ylaklari" - Kassa va Moliya Bo'limi</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 5-ko'rsatkich: Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Yagona umumiy CSS -->
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <!-- Kassa bo'limi uchun maxsus moliya-zumrad jilolanuvchi gradient -->
     <style>
-        /* Umumiy sahifa sozlamalari */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #03045e;
+        body.kassa-page {
+            background: linear-gradient(
+                -45deg,
+                #062c30,
+                #0f172a,
+                #065f46,
+                #1e1b4b,
+                #0e7490,
+                #312e81
+            );
+            background-size: 400% 400%;
+            animation: kassaAurora 9s ease infinite;
+            background-attachment: fixed;
         }
 
-        #menu-toggle, #theme-toggle {
-            display: none;
+        @keyframes kassaAurora {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        /* Header qismi */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 75px;
-            background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 25px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.3);
-            z-index: 1000;
+        body.kassa-page.light-mode {
+            background: linear-gradient(-45deg, #d1fae5, #e0f2fe, #ede9fe, #fef3c7, #ccfbf1);
+            background-size: 400% 400%;
+            animation: kassaAurora 9s ease infinite;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
+        .pdf-neon-in {
+            background: linear-gradient(135deg, #059669, #10b981);
+            border: none;
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);
+            transition: all 0.25s ease;
         }
 
-        .menu-btn {
-            background: linear-gradient(135deg, #00c6ff, #0072ff);
-            color: white;
-            padding: 10px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: bold;
-            margin-right: 20px;
-            box-shadow: 0 4px 10px rgba(0, 114, 255, 0.3);
-            transition: all 0.3s ease;
-            user-select: none;
-        }
-
-        .menu-btn:hover {
-            background: linear-gradient(135deg, #f857a6, #ff5858);
-            transform: scale(1.05);
-        }
-
-        .brand-box {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo-wrapper {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            border: 2px solid #00c6ff;
-            box-shadow: 0 2px 10px rgba(0, 198, 255, 0.5);
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #0f2027;
-            flex-shrink: 0;
-        }
-
-        .logo-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transform: scale(1.25);
-        }
-
-        .header-title h1 {
-            margin: 0;
-            font-size: 22px;
-            letter-spacing: 0.5px;
-        }
-
-        .header-title p {
-            margin: 3px 0 0 0;
-            color: #cbd5e0;
-            font-size: 13px;
-        }
-
-        .theme-btn {
-            background: rgba(255, 255, 255, 0.12);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 9px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            user-select: none;
-        }
-
-        .theme-btn:hover {
-            background: #00c6ff;
-            color: #0f2027;
-            border-color: #00c6ff;
-        }
-
-        /* Chap Sidebar */
-        .left-sidebar {
-            position: fixed;
-            top: 75px;
-            left: 0;
-            bottom: 0;
-            width: 260px;
-            background-color: #1a2530;
-            padding: 25px 15px;
-            box-sizing: border-box;
-            box-shadow: 4px 0 15px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease;
-            z-index: 999;
-            overflow-y: auto;
-        }
-
-        .left-sidebar h3 {
-            color: #a0aec0;
-            font-size: 13px;
-            text-transform: uppercase;
-            margin-top: 0;
-            margin-bottom: 18px;
-            padding-left: 10px;
-            border-bottom: 1px solid #2d3748;
-            padding-bottom: 10px;
-            letter-spacing: 1px;
-        }
-
-        .left-sidebar a {
-            display: block;
-            color: #e2e8f0;
-            text-decoration: none;
-            padding: 13px 18px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 15px;
-            background-color: rgba(255, 255, 255, 0.04);
-            transition: all 0.3s ease;
-            border-left: 4px solid transparent;
-        }
-
-        .left-sidebar a:hover {
-            background: linear-gradient(90deg, #00c6ff 0%, #0072ff 100%);
-            color: #ffffff;
-            transform: translateX(8px);
-            border-left: 4px solid #fff;
-            box-shadow: 0 4px 15px rgba(0, 198, 255, 0.4);
-        }
-
-        .left-sidebar a.active {
-            background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
-            color: #ffffff;
-            box-shadow: 0 4px 12px rgba(56, 239, 125, 0.3);
-        }
-
-        /* Asosiy qism */
-        .page-wrapper {
-            margin-top: 75px;
-            margin-left: 260px;
-            transition: margin-left 0.3s ease;
-            min-height: calc(100vh - 75px);
-            display: flex;
-            flex-direction: column;
-        }
-
-        #menu-toggle:checked ~ .left-sidebar {
-            transform: translateX(-260px);
-        }
-
-        #menu-toggle:checked ~ .page-wrapper {
-            margin-left: 0;
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 35px 45px;
-            background-color: #03045e;
-            color: #ffffff;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .top-description {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .top-description h2 {
-            color: #00e5ff;
-            font-size: 36px;
-            margin: 0;
-            letter-spacing: 1px;
-        }
-
-        /* Moliyaviy Kartochkalar Grid */
-        .stats-grid {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .stat-card {
-            flex: 1;
-            min-width: 250px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-left: 5px solid #00e5ff;
-            padding: 22px 25px;
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-        }
-
-        .stat-card h4 {
-            margin: 0 0 8px 0;
-            font-size: 14px;
-            color: #cbd5e0;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .stat-card .stat-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #ffffff;
-        }
-
-        /* PDF Tugmalar Bloki */
-        .pdf-buttons-section {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 35px;
-            flex-wrap: wrap;
-        }
-
-        .pdf-btn {
-            flex: 1;
-            min-width: 250px;
-            display: inline-block;
-            background: linear-gradient(90deg, #11998e, #38ef7d);
-            color: white;
-            text-decoration: none;
-            padding: 14px 20px;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 15px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(56, 239, 125, 0.3);
-            transition: transform 0.3s ease;
-        }
-
-        .pdf-btn.outflow {
-            background: linear-gradient(90deg, #ff416c, #ff4b2b);
-            box-shadow: 0 4px 15px rgba(255, 65, 108, 0.3);
-        }
-
-        .pdf-btn:hover {
+        .pdf-neon-in:hover {
             transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(16, 185, 129, 0.55);
         }
 
-        /* Kassa jadvali dizayni */
-        .table-section h3 {
-            color: #00e5ff;
-            font-size: 22px;
-            margin-bottom: 15px;
+        .pdf-neon-out {
+            background: linear-gradient(135deg, #e11d48, #f43f5e);
+            border: none;
+            box-shadow: 0 6px 18px rgba(244, 63, 94, 0.35);
+            transition: all 0.25s ease;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #ffffff;
-            color: #2d3748;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-        }
-
-        th, td {
-            padding: 15px 18px;
-            text-align: left;
-            font-size: 15px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        th {
-            background-color: #1a365d;
-            color: white;
-            font-weight: 600;
-        }
-
-        tr:hover {
-            background-color: #f1f5f9;
-        }
-
-        .badge {
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: bold;
-            color: white;
-            display: inline-block;
-        }
-
-        .badge-green { background-color: #38a169; }
-        .badge-red { background-color: #e53e3e; }
-
-        /* TONGGI REJIM SOZLAMALARI */
-        #theme-toggle:checked ~ .page-wrapper .main-content {
-            background-color: #f0f4f8;
-            color: #2d3748;
-        }
-
-        #theme-toggle:checked ~ .page-wrapper .top-description h2,
-        #theme-toggle:checked ~ .page-wrapper .table-section h3 {
-            color: #03045e;
-        }
-
-        #theme-toggle:checked ~ .page-wrapper .stat-card {
-            background: #ffffff;
-            border-color: #cbd5e0;
-            border-left: 5px solid #03045e;
-        }
-
-        #theme-toggle:checked ~ .page-wrapper .stat-card h4 {
-            color: #718096;
-        }
-
-        #theme-toggle:checked ~ .page-wrapper .stat-card .stat-value {
-            color: #03045e;
-        }
-
-        /* Footer */
-        footer {
-            background-color: #091118;
-            color: #cbd5e0;
-            padding: 25px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            font-size: 14px;
-            border-top: 3px solid #00c6ff;
-        }
-
-        .footer-status {
-            color: #38ef7d;
-            font-weight: bold;
+        .pdf-neon-out:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(244, 63, 94, 0.55);
         }
     </style>
 </head>
-<body>
+<body class="kassa-page">
 
-    <input type="checkbox" id="menu-toggle">
-    <input type="checkbox" id="theme-toggle">
+    <!-- 7-ko'rsatkich: Konteynerli menyu (Navbar + Container) -->
+    <nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top shadow">
+        <div class="container-fluid px-3 px-lg-4">
+            <button id="menuToggleBtn" class="btn btn-info text-white fw-bold me-3 menu-btn" type="button">
+                <i class="bi bi-list fs-5 me-1"></i> Menyu
+            </button>
 
-    <!-- Header qismi -->
-    <header>
-        <div class="header-left">
-            <label for="menu-toggle" class="menu-btn">☰ Menyu</label>
-            <div class="brand-box">
+            <a class="navbar-brand d-flex align-items-center gap-2 me-auto" href="dashboard.html">
                 <div class="logo-wrapper">
                     <img src="assets/logo.png" alt="Logotip" class="logo-img">
                 </div>
-                <div class="header-title">
-                    <h1>"Urgutni ko'ylaklari" Korxonasi Veb Tizimi</h1>
-                    <p>Kassa va moliya bo'limi paneli</p>
+                <div class="d-none d-sm-block">
+                    <div class="fw-bold fs-6 lh-1 text-white">"Urgutning ko'ylaklari" Korxonasi</div>
+                    <small class="text-info opacity-75" style="font-size: 11px;">Kassa va moliya bo'limi paneli</small>
                 </div>
+            </a>
+
+            <button class="navbar-toggler border-info" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end gap-3 mt-3 mt-lg-0" id="topNavbarContent">
+                <!-- 6-ko'rsatkich: Oddiy Dropdown komponenti -->
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle text-white fw-semibold d-flex align-items-center gap-1" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle text-info fs-5"></i> Profil
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark border-info shadow">
+                        <li><h6 class="dropdown-header text-info">Administrator</h6></li>
+                        <li><a class="dropdown-item" href="ishchilar.html"><i class="bi bi-people me-2"></i>Xodimlar</a></li>
+                        <li><a class="dropdown-item" href="qarz_daftar.html"><i class="bi bi-journal-text me-2"></i>Qarz daftar</a></li>
+                        <li><hr class="dropdown-divider border-secondary"></li>
+                        <li><a class="dropdown-item text-danger" href="index.html"><i class="bi bi-box-arrow-right me-2"></i>Tizimdan chiqish</a></li>
+                    </ul>
+                </div>
+
+                <!-- Tonggi / Tungi rejim tugmasi -->
+                <button id="themeToggleBtn" class="btn btn-sm btn-outline-info rounded-pill px-3 fw-semibold" type="button"
+                        data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tonggi va Tungi rejimni almashtirish">
+                    <i class="bi bi-sun-fill me-1" id="themeIcon"></i>
+                    <span id="themeText">Tonggi rejim</span>
+                </button>
             </div>
         </div>
-        <label for="theme-toggle" class="theme-btn">☀️ Tonggi / 🌙 Tungi rejim</label>
-    </header>
+    </nav>
 
-    <!-- Chap Sidebar -->
-    <aside class="left-sidebar">
-        <h3>Bo'limlar menyusi</h3>
-        <a href="dashboard.html">Bosh sahifa</a>
-        <a href="omborxona.html">Omborxona</a>
-        <a href="sotuv.html">Sotuv bo'limi</a>
-        <a href="kassa.html" class="active">Kassa</a>
-        <a href="buyurtmalar.html">Buyurtmalar</a>
-        <a href="qarz_daftar.html">Qarz daftar</a>
-        <a href="ishchilar.html">Ishchilar</a>
+    <!-- CHAP QOTIRILGAN SIDEBAR -->
+    <aside id="leftSidebar" class="left-sidebar">
+        <h6 class="sidebar-heading text-uppercase fw-bold">
+            <i class="bi bi-grid-1x2-fill text-info me-2"></i>Bo'limlar menyusi
+        </h6>
+        <nav class="nav flex-column gap-2">
+            <a href="dashboard.html" class="sidebar-link"><i class="bi bi-house-door-fill me-2"></i>Bosh sahifa</a>
+            <a href="omborxona.html" class="sidebar-link"><i class="bi bi-box-seam-fill me-2"></i>Omborxona</a>
+            <a href="sotuv.html" class="sidebar-link"><i class="bi bi-cart-check-fill me-2"></i>Sotuv bo'limi</a>
+            <a href="kassa.html" class="sidebar-link active"><i class="bi bi-wallet2 me-2"></i>Kassa</a>
+            <a href="buyurtmalar.html" class="sidebar-link"><i class="bi bi-clipboard-check-fill me-2"></i>Buyurtmalar</a>
+            <a href="qarz_daftar.html" class="sidebar-link"><i class="bi bi-journal-text me-2"></i>Qarz daftar</a>
+            <a href="ishchilar.html" class="sidebar-link"><i class="bi bi-people-fill me-2"></i>Ishchilar</a>
+        </nav>
     </aside>
 
-    <!-- Asosiy qism -->
+    <!-- ASOSIY SAHIFA KONTEYNERI -->
     <div class="page-wrapper">
         <main class="main-content">
-            
-            <div class="top-description">
-                <h2>Kassa va Moliyaviy Hisobotlar Paneli</h2>
-            </div>
+            <div class="container-fluid px-3 px-lg-4 py-4">
 
-            <!-- 1. Moliyaviy ko'rsatkichlar kartochkalari -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h4>📦 Ombordagi Jami Mahsulot Summasi</h4>
-                    <div class="stat-value">793,500,000 so'm</div>
+                <!-- 2-ko'rsatkich: Matnlar dizayni -->
+                <div class="text-center pb-3 mb-4 border-bottom border-info border-opacity-25">
+                    <h1 class="display-5 fw-bold section-title mb-2">Kassa va Moliyaviy Hisobotlar Paneli</h1>
+                    <p class="lead opacity-75 mb-0">Korxona kirim-chiqimlari, sof foyda va pul oqimlari nazorati</p>
                 </div>
-                <div class="stat-card">
-                    <h4>📈 Shu Oydagi Jami Kirim / Chiqim</h4>
-                    <div class="stat-value">145,000,000 / 62,000,000 so'm</div>
+
+                <!-- 9-ko'rsatkich: Bootstrap Panel (Card) — 3 ta Moliyaviy Statistika -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="card custom-card stat-card h-100" data-bs-toggle="tooltip" title="Ombordagi barcha tayyor mahsulotlar qiymati">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="text-uppercase small fw-bold opacity-75 mb-0">Ombordagi Jami Mahsulot Summasi</h6>
+                                    <i class="bi bi-box-seam-fill fs-4 text-info"></i>
+                                </div>
+                                <div class="fs-3 fw-bold stat-value">793,500,000 so'm</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card custom-card stat-card h-100" data-bs-toggle="tooltip" title="Joriy oy bo'yicha umumiy kirim va chiqim">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="text-uppercase small fw-bold opacity-75 mb-0">Shu Oydagi Kirim / Chiqim</h6>
+                                    <i class="bi bi-arrow-left-right fs-4 text-warning"></i>
+                                </div>
+                                <div class="fs-4 fw-bold stat-value">145,000,000 / 62,000,000 so'm</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card custom-card stat-card h-100" data-bs-toggle="tooltip" title="Kirim va chiqimlar farqi (sof daromad)">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="text-uppercase small fw-bold opacity-75 mb-0">Shu Oydagi Sof Foyda</h6>
+                                    <i class="bi bi-graph-up-arrow fs-4 text-success"></i>
+                                </div>
+                                <div class="fs-3 fw-bold stat-value">83,000,000 so'm</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <h4>💰 Shu Oydagi Sof Foyda</h4>
-                    <div class="stat-value">83,000,000 so'm</div>
+
+                <!-- PDF Smetalar va Yangi operatsiya qo'shish paneli -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-5">
+                        <a href="assets/kirim_smeta.pdf" target="_blank" class="btn btn-success pdf-neon-in w-100 py-3 fw-bold rounded-4">
+                            <i class="bi bi-file-earmark-arrow-down-fill me-2 fs-5"></i>Shu oydagi kirimlar smetasi (PDF)
+                        </a>
+                    </div>
+                    <div class="col-md-5">
+                        <a href="assets/chiqim_smeta.pdf" target="_blank" class="btn btn-danger pdf-neon-out w-100 py-3 fw-bold rounded-4">
+                            <i class="bi bi-file-earmark-arrow-up-fill me-2 fs-5"></i>Shu oydagi chiqimlar smetasi (PDF)
+                        </a>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-info text-white w-100 py-3 fw-bold rounded-4" data-bs-toggle="modal" data-bs-target="#addCashModal">
+                            <i class="bi bi-plus-circle-fill me-1"></i> Yangi
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            <!-- 2. PDF Smetalar uchun tugmalar -->
-            <div class="pdf-buttons-section">
-                <a href="assets/kirim_smeta.pdf" target="_blank" class="pdf-btn">📥 Shu oydagi kirimlar smetasi (PDF)</a>
-                <a href="assets/chiqim_smeta.pdf" target="_blank" class="pdf-btn outflow">📥 Shu oydagi chiqimlar smetasi (PDF)</a>
-            </div>
+                <!-- 3, 4, 6 va 8-ko'rsatkichlar: Kassa Operatsiyalari Jadvali -->
+                <div class="card custom-card mb-4">
+                    <div class="card-header bg-transparent border-bottom border-info border-opacity-25 py-3">
+                        <div class="row g-3 align-items-center justify-content-between">
+                            <div class="col-lg-5">
+                                <h4 class="h5 fw-bold section-heading mb-0">
+                                    <i class="bi bi-cash-coin text-success me-2"></i>So'nggi kassa operatsiyalari va pul harakati
+                                </h4>
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="d-flex flex-wrap justify-content-lg-end gap-2">
+                                    <!-- 4-ko'rsatkich: Jonli qidiruv -->
+                                    <div class="input-group input-group-sm" style="max-width: 240px;">
+                                        <span class="input-group-text bg-dark border-info text-info"><i class="bi bi-search"></i></span>
+                                        <input type="text" id="kassaSearch" class="form-control bg-dark text-white border-info" placeholder="Operatsiya qidirish...">
+                                    </div>
 
-            <!-- 3. Kassa operatsiyalari jadvali -->
-            <div class="table-section">
-                <h3>So'nggi kassa operatsiyalari va pul harakati</h3>
-                <table>
-                    <tr>
-                        <th>T/r</th>
-                        <th>Operatsiya tavsifi</th>
-                        <th>Turi</th>
-                        <th>Summasi</th>
-                        <th>To'lov shakli</th>
-                        <th>Sanasi</th>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Samarqand markaziy bozoriga ulgurji savdo tushumi</td>
-                        <td><span class="badge badge-green">Kirim</span></td>
-                        <td>24,000,000 so'm</td>
-                        <td>Bank o'tkazmasi</td>
-                        <td>2026-10-25</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Yangi paxta va mato xomashyosini xarid qilish</td>
-                        <td><span class="badge badge-red">Chiqim</span></td>
-                        <td>12,500,000 so'm</td>
-                        <td>Naqd pul</td>
-                        <td>2026-10-26</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Chakana savdo do'konidan tushum</td>
-                        <td><span class="badge badge-green">Kirim</span></td>
-                        <td>8,200,000 so'm</td>
-                        <td>Plastik karta</td>
-                        <td>2026-10-27</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Tikuv sexi ishchilarining haftalik avansi</td>
-                        <td><span class="badge badge-red">Chiqim</span></td>
-                        <td>15,000,000 so'm</td>
-                        <td>Plastik karta</td>
-                        <td>2026-10-28</td>
-                    </tr>
-                </table>
-            </div>
+                                    <!-- 6-ko'rsatkich: Button Dropdown (Turi bo'yicha filtr) -->
+                                    <div class="btn-group btn-group-sm">
+                                        <button type="button" class="btn btn-info text-white fw-semibold dropdown-toggle px-3" data-bs-toggle="dropdown" id="typeFilterBtn">
+                                            <i class="bi bi-funnel-fill me-1"></i>Turi: Barchasi
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark border-info">
+                                            <li><button class="dropdown-item type-option active" data-type="all"><i class="bi bi-grid me-2 text-info"></i>Barchasi</button></li>
+                                            <li><button class="dropdown-item type-option" data-type="kirim"><i class="bi bi-arrow-down-left-circle me-2 text-success"></i>Kirim</button></li>
+                                            <li><button class="dropdown-item type-option" data-type="chiqim"><i class="bi bi-arrow-up-right-circle me-2 text-danger"></i>Chiqim</button></li>
+                                        </ul>
+                                    </div>
 
+                                    <!-- 8-ko'rsatkich: Popover -->
+                                    <button type="button" class="btn btn-sm btn-outline-info"
+                                            data-bs-toggle="popover"
+                                            data-bs-trigger="focus"
+                                            data-bs-placement="left"
+                                            data-bs-title="Kassa hisobi haqida"
+                                            data-bs-content="Barcha naqd, plastik karta va bank o'tkazmalari avtomatik ravishda oylik smetaga kiritiladi.">
+                                        <i class="bi bi-info-circle"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0 custom-table" id="kassaTable">
+                                <thead>
+                                    <tr>
+                                        <th>T/r</th>
+                                        <th>Operatsiya tavsifi</th>
+                                        <th>Turi</th>
+                                        <th>Summasi</th>
+                                        <th>To'lov shakli</th>
+                                        <th>Sanasi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-type="kirim">
+                                        <td>1</td>
+                                        <td class="fw-semibold">Samarqand markaziy bozoriga ulgurji savdo tushumi</td>
+                                        <td><span class="badge bg-success rounded-pill px-3"><i class="bi bi-arrow-down-left me-1"></i>Kirim</span></td>
+                                        <td class="fw-bold text-success">+24,000,000 so'm</td>
+                                        <td><i class="bi bi-bank text-info me-1"></i>Bank o'tkazmasi</td>
+                                        <td>2026-10-25</td>
+                                    </tr>
+                                    <tr data-type="chiqim">
+                                        <td>2</td>
+                                        <td class="fw-semibold">Yangi paxta va mato xomashyosini xarid qilish</td>
+                                        <td><span class="badge bg-danger rounded-pill px-3"><i class="bi bi-arrow-up-right me-1"></i>Chiqim</span></td>
+                                        <td class="fw-bold text-danger">-12,500,000 so'm</td>
+                                        <td><i class="bi bi-cash text-warning me-1"></i>Naqd pul</td>
+                                        <td>2026-10-26</td>
+                                    </tr>
+                                    <tr data-type="kirim">
+                                        <td>3</td>
+                                        <td class="fw-semibold">Chakana savdo do'konidan tushum</td>
+                                        <td><span class="badge bg-success rounded-pill px-3"><i class="bi bi-arrow-down-left me-1"></i>Kirim</span></td>
+                                        <td class="fw-bold text-success">+8,200,000 so'm</td>
+                                        <td><i class="bi bi-credit-card text-info me-1"></i>Plastik karta</td>
+                                        <td>2026-10-27</td>
+                                    </tr>
+                                    <tr data-type="chiqim">
+                                        <td>4</td>
+                                        <td class="fw-semibold">Tikuv sexi ishchilarining haftalik avansi</td>
+                                        <td><span class="badge bg-danger rounded-pill px-3"><i class="bi bi-arrow-up-right me-1"></i>Chiqim</span></td>
+                                        <td class="fw-bold text-danger">-15,000,000 so'm</td>
+                                        <td><i class="bi bi-credit-card text-info me-1"></i>Plastik karta</td>
+                                        <td>2026-10-28</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </main>
 
-        <!-- Footer -->
-        <footer>
-            <div>
-                <span class="footer-status">● Tizim holati: Faol (Online)</span>
-            </div>
-            <div>
-                &copy; 2026 "Urgutni ko'ylaklari" korxonasi. Kassa bo'limi.
-            </div>
-            <div>
-                <strong>Dasturchi:</strong> Xalimov Azizjon | Urgut
+        <!-- NOODATIY FUTURISTIK NEON FOOTER -->
+        <footer class="ultra-footer position-relative mt-5 pt-5 pb-4">
+            <div class="footer-neon-line"></div>
+            <a href="#" class="back-to-top-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Sahifa boshiga qaytish">
+                <i class="bi bi-arrow-up-short fs-3"></i>
+            </a>
+
+            <div class="container-fluid px-3 px-lg-5 position-relative" style="z-index: 2;">
+                <div class="row g-4 mb-4">
+                    <div class="col-lg-4">
+                        <div class="footer-glass-card h-100 p-4 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="d-flex align-items-center gap-3 mb-3">
+                                    <div class="logo-wrapper">
+                                        <img src="assets/logo.png" alt="Logotip" class="logo-img">
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold mb-0 footer-brand-title">"Urgutning ko'ylaklari"</h5>
+                                        <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 rounded-pill mt-1">
+                                            Kassa moduli
+                                        </span>
+                                    </div>
+                                </div>
+                                <p class="small text-light text-opacity-75 mb-4">
+                                    Erkaklar, ayollar va bolalar uchun eng sifatli, zamonaviy va qulay ko'ylaklarni ishlab chiqarish hamda hududlar bo'ylab yetkazib berish korxonasi.
+                                </p>
+                            </div>
+                            <div class="live-status-pill d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill align-self-start">
+                                <span class="pulse-dot"></span>
+                                <span class="small fw-semibold text-success">Tizim holati: Faol (Online)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="footer-glass-card h-100 p-4">
+                            <h6 class="text-uppercase fw-bold text-info mb-3">
+                                <i class="bi bi-lightning-charge-fill me-2"></i>Tezkor bo'limlar
+                            </h6>
+                            <div class="row g-2">
+                                <div class="col-6"><a href="dashboard.html" class="footer-chip-link"><i class="bi bi-house-door me-2"></i>Bosh sahifa</a></div>
+                                <div class="col-6"><a href="omborxona.html" class="footer-chip-link"><i class="bi bi-box-seam me-2"></i>Omborxona</a></div>
+                                <div class="col-6"><a href="sotuv.html" class="footer-chip-link"><i class="bi bi-cart-check me-2"></i>Sotuv bo'limi</a></div>
+                                <div class="col-6"><a href="kassa.html" class="footer-chip-link"><i class="bi bi-wallet2 me-2"></i>Kassa</a></div>
+                                <div class="col-6"><a href="buyurtmalar.html" class="footer-chip-link"><i class="bi bi-clipboard-check me-2"></i>Buyurtmalar</a></div>
+                                <div class="col-6"><a href="qarz_daftar.html" class="footer-chip-link"><i class="bi bi-journal-text me-2"></i>Qarz daftar</a></div>
+                                <div class="col-12"><a href="ishchilar.html" class="footer-chip-link"><i class="bi bi-people me-2"></i>Xodimlar bo'limi</a></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="footer-glass-card h-100 p-4 d-flex flex-column justify-content-between">
+                            <div>
+                                <h6 class="text-uppercase fw-bold text-info mb-3">
+                                    <i class="bi bi-headset me-2"></i>Aloqa markazi
+                                </h6>
+                                <ul class="list-unstyled d-flex flex-column gap-2 small mb-4">
+                                    <li class="d-flex align-items-center gap-2 text-light text-opacity-75"><i class="bi bi-geo-alt-fill text-danger fs-6"></i><span>Urgut iqtisodiy zonasi, Samarqand</span></li>
+                                    <li class="d-flex align-items-center gap-2"><i class="bi bi-telephone-fill text-success fs-6"></i><a href="tel:+998942661379" class="text-light text-decoration-none hover-cyan">+998 94 266 13 79</a></li>
+                                    <li class="d-flex align-items-center gap-2"><i class="bi bi-envelope-fill text-info fs-6"></i><a href="mailto:xalimovazizjon31@gmail.com" class="text-light text-decoration-none hover-cyan">xalimovazizjon31@gmail.com</a></li>
+                                </ul>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <a href="https://t.me/KXalimov_Azizjon" target="_blank" class="social-neon-btn telegram" data-bs-toggle="tooltip" title="Telegram: @KXalimov_Azizjon"><i class="bi bi-telegram fs-5"></i></a>
+                                <a href="https://www.instagram.com/xalimovazizjon31/" target="_blank" class="social-neon-btn instagram" data-bs-toggle="tooltip" title="Instagram: @xalimovazizjon31"><i class="bi bi-instagram fs-5"></i></a>
+                                <a href="tel:+998942661379" class="social-neon-btn phone" data-bs-toggle="tooltip" title="Qo'ng'iroq qilish"><i class="bi bi-telephone-outbound-fill fs-5"></i></a>
+                                <a href="mailto:xalimovazizjon31@gmail.com" class="social-neon-btn email" data-bs-toggle="tooltip" title="Email yuborish"><i class="bi bi-envelope-at-fill fs-5"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-bottom-bar rounded-4 px-4 py-3 d-flex flex-wrap justify-content-between align-items-center gap-2 small">
+                    <div class="text-light text-opacity-75">&copy; 2026 <strong class="text-white">"Urgutning ko'ylaklari"</strong> korxonasi. Kassa bo'limi.</div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="text-light text-opacity-75">Ishlab chiquvchi:</span>
+                        <span class="dev-badge px-3 py-1 rounded-pill fw-bold"><i class="bi bi-code-slash me-1"></i>Xalimov Azizjon | Urgut</span>
+                    </div>
+                </div>
             </div>
         </footer>
     </div>
 
+    <!-- 4-ko'rsatkich: Yangi Kassa Operatsiyasi Qo'shish Modali (Bootstrap Forma) -->
+    <div class="modal fade" id="addCashModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white border border-info rounded-4 shadow-lg">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title text-info fw-bold"><i class="bi bi-plus-circle me-2"></i>Yangi kassa operatsiyasi</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="cashForm">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label small text-secondary">Operatsiya tavsifi</label>
+                            <input type="text" id="opDesc" class="form-control bg-dark text-white border-info" placeholder="Masalan: Ulgurji savdo tushumi" required>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-6">
+                                <label class="form-label small text-secondary">Turi</label>
+                                <select id="opType" class="form-select bg-dark text-white border-info">
+                                    <option value="kirim">Kirim</option>
+                                    <option value="chiqim">Chiqim</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small text-secondary">Summasi (so'm)</label>
+                                <input type="number" id="opAmount" class="form-control bg-dark text-white border-info" placeholder="1000000" min="1000" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small text-secondary">To'lov shakli</label>
+                            <select id="opMethod" class="form-select bg-dark text-white border-info">
+                                <option>Naqd pul</option>
+                                <option>Plastik karta</option>
+                                <option>Bank o'tkazmasi</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-secondary">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Bekor qilish</button>
+                        <button type="submit" class="btn btn-info text-white fw-bold px-4">Qo'shish</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Tooltiplar va Popoverlarni faollashtirish
+        [...document.querySelectorAll('[data-bs-toggle="tooltip"]')].map(el => new bootstrap.Tooltip(el));
+        [...document.querySelectorAll('[data-bs-toggle="popover"]')].map(el => new bootstrap.Popover(el));
+
+        // Chap Sidebarni yopish/ochish
+        document.getElementById('menuToggleBtn').addEventListener('click', () => {
+            if (window.innerWidth >= 992) {
+                document.body.classList.toggle('sidebar-collapsed');
+            } else {
+                document.body.classList.toggle('sidebar-open');
+            }
+        });
+
+        // Tonggi / Tungi rejim
+        const themeBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            themeIcon.className = isLight ? 'bi bi-moon-stars-fill me-1' : 'bi bi-sun-fill me-1';
+            themeText.textContent = isLight ? 'Tungi rejim' : 'Tonggi rejim';
+        });
+
+        // Jonli qidiruv va Kirim/Chiqim filtri
+        const searchInput = document.getElementById('kassaSearch');
+        const typeOptions = document.querySelectorAll('.type-option');
+        const typeFilterBtn = document.getElementById('typeFilterBtn');
+        let activeType = 'all';
+
+        function filterTable() {
+            const q = searchInput.value.toLowerCase();
+            document.querySelectorAll('#kassaTable tbody tr').forEach(row => {
+                const text = row.textContent.toLowerCase();
+                const type = row.getAttribute('data-type');
+                row.style.display = (text.includes(q) && (activeType === 'all' || type === activeType)) ? '' : 'none';
+            });
+        }
+
+        searchInput.addEventListener('input', filterTable);
+        typeOptions.forEach(btn => {
+            btn.addEventListener('click', () => {
+                typeOptions.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeType = btn.getAttribute('data-type');
+                typeFilterBtn.innerHTML = `<i class="bi bi-funnel-fill me-1"></i>Turi: ${btn.textContent.trim()}`;
+                filterTable();
+            });
+        });
+
+        // Yangi operatsiya qo'shish
+        const cashModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('addCashModal'));
+        document.getElementById('cashForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const tbody = document.querySelector('#kassaTable tbody');
+            const count = tbody.rows.length + 1;
+            const desc = document.getElementById('opDesc').value;
+            const type = document.getElementById('opType').value;
+            const amount = parseInt(document.getElementById('opAmount').value).toLocaleString('uz-UZ');
+            const method = document.getElementById('opMethod').value;
+            const today = new Date().toISOString().split('T')[0];
+
+            const isKirim = type === 'kirim';
+            const tr = document.createElement('tr');
+            tr.setAttribute('data-type', type);
+            tr.innerHTML = `
+                <td>${count}</td>
+                <td class="fw-semibold">${desc}</td>
+                <td><span class="badge ${isKirim ? 'bg-success' : 'bg-danger'} rounded-pill px-3"><i class="bi ${isKirim ? 'bi-arrow-down-left' : 'bi-arrow-up-right'} me-1"></i>${isKirim ? 'Kirim' : 'Chiqim'}</span></td>
+                <td class="fw-bold ${isKirim ? 'text-success' : 'text-danger'}">${isKirim ? '+' : '-'}${amount} so'm</td>
+                <td><i class="bi bi-wallet2 text-info me-1"></i>${method}</td>
+                <td>${today}</td>
+            `;
+            tbody.prepend(tr);
+            e.target.reset();
+            cashModal.hide();
+            filterTable();
+        });
+    </script>
 </body>
-</html
+</html>

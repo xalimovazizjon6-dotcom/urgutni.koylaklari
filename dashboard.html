@@ -2,330 +2,595 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <title>👕 "Urgutni ko'ylaklari" Korxonasi - Bosh Sahifa</title>
-   <link rel="stylesheet" href="css/dashboard.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👕 "Urgutning ko'ylaklari" Korxonasi - Bosh Sahifa</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Maxsus CSS -->
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
 
-    <!-- Menyu va Tungi/Tonggi rejimni boshqaruvchi maxfiy checkboxlar -->
-    <input type="checkbox" id="menu-toggle">
-    <input type="checkbox" id="theme-toggle">
+    <!-- 7-ko'rsatkich: Konteynerli menyu (Navbar + Container) -->
+    <nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top shadow">
+        <div class="container-fluid px-3 px-lg-4">
+            <!-- Chap Sidebarni ochish/yopish tugmasi -->
+            <button id="menuToggleBtn" class="btn btn-info text-white fw-bold me-3 menu-btn" type="button">
+                <i class="bi bi-list fs-5 me-1"></i> Menyu
+            </button>
 
-    <!-- Sarlavha qismi (Header) -->
-    <header>
-        <div class="header-left">
-            <label for="menu-toggle" class="menu-btn">☰ Menyu</label>
-            <div class="brand-box">
+            <!-- Logotip va korxona nomi -->
+            <a class="navbar-brand d-flex align-items-center gap-2 me-auto" href="dashboard.html">
                 <div class="logo-wrapper">
                     <img src="assets/logo.png" alt="Logotip" class="logo-img">
                 </div>
-                <div class="header-title">
-                    <h1>"Urgutni ko'ylaklari" Korxonasi</h1>
-                    <p>Bolalar va kattalar ayollar ko'ylaklarini ishlab chiqarish</p>
+                <div class="d-none d-sm-block">
+                    <div class="fw-bold fs-6 lh-1 text-white">"Urgutning ko'ylaklari" Korxonasi</div>
+                    <small class="text-info opacity-75" style="font-size: 11px;">Erkaklar, ayollar va bolalar ko'ylaklarini ishlab chiqarish</small>
                 </div>
+            </a>
+
+            <!-- Mobil uchun o'ng menyu tugmasi -->
+            <button class="navbar-toggler border-info" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end gap-3 mt-3 mt-lg-0" id="topNavbarContent">
+                <!-- 4-ko'rsatkich: Bootstrap formasi (Qidiruv) -->
+                <form class="d-flex" role="search" onsubmit="return false;">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-dark border-info text-info">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input class="form-control bg-dark text-white border-info" type="search" placeholder="Mahsulot yoki buyurtma..." aria-label="Qidirish">
+                    </div>
+                </form>
+
+                <!-- 6-ko'rsatkich: Oddiy Dropdown komponenti -->
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle text-white fw-semibold d-flex align-items-center gap-1" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle text-info fs-5"></i> Profil
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark border-info shadow">
+                        <li><h6 class="dropdown-header text-info">Administrator</h6></li>
+                        <li><a class="dropdown-item" href="ishchilar.html"><i class="bi bi-people me-2"></i>Xodimlar</a></li>
+                        <li><a class="dropdown-item" href="kassa.html"><i class="bi bi-cash-stack me-2"></i>Kassa hisobi</a></li>
+                        <li><hr class="dropdown-divider border-secondary"></li>
+                        <li><a class="dropdown-item text-danger" href="index.html"><i class="bi bi-box-arrow-right me-2"></i>Tizimdan chiqish</a></li>
+                    </ul>
+                </div>
+
+                <!-- Tonggi / Tungi rejim tugmasi -->
+                <button id="themeToggleBtn" class="btn btn-sm btn-outline-info rounded-pill px-3 fw-semibold" type="button"
+                        data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tonggi va Tungi rejimni almashtirish">
+                    <i class="bi bi-sun-fill me-1" id="themeIcon"></i>
+                    <span id="themeText">Tonggi rejim</span>
+                </button>
             </div>
         </div>
-        <label for="theme-toggle" class="theme-btn">☀️ Tonggi / 🌙 Tungi rejim</label>
-    </header>
+    </nav>
 
-    <!-- CHAP SIDEBAR -->
-    <aside class="left-sidebar">
-        <h3>Bo'limlar menyusi</h3>
-        <a href="dashboard.html" class="active">Bosh sahifa</a>
-        <a href="omborxona.html">Omborxona</a>
-        <a href="sotuv.html">Sotuv bo'limi</a>
-        <a href="kassa.html">Kassa</a>
-        <a href="buyurtmalar.html">Buyurtmalar</a>
-        <a href="qarz_daftar.html">Qarz daftar</a>
-        <a href="ishchilar.html">Ishchilar</a>
+    <!-- CHAP QOTIRILGAN SIDEBAR -->
+    <aside id="leftSidebar" class="left-sidebar">
+        <h6 class="sidebar-heading text-uppercase fw-bold">
+            <i class="bi bi-grid-1x2-fill text-info me-2"></i>Bo'limlar menyusi
+        </h6>
+        <nav class="nav flex-column gap-2">
+            <a href="dashboard.html" class="sidebar-link active"><i class="bi bi-house-door-fill me-2"></i>Bosh sahifa</a>
+            <a href="omborxona.html" class="sidebar-link"><i class="bi bi-box-seam-fill me-2"></i>Omborxona</a>
+            <a href="sotuv.html" class="sidebar-link"><i class="bi bi-cart-check-fill me-2"></i>Sotuv bo'limi</a>
+            <a href="kassa.html" class="sidebar-link"><i class="bi bi-wallet2 me-2"></i>Kassa</a>
+            <a href="buyurtmalar.html" class="sidebar-link"><i class="bi bi-clipboard-check-fill me-2"></i>Buyurtmalar</a>
+            <a href="qarz_daftar.html" class="sidebar-link"><i class="bi bi-journal-text me-2"></i>Qarz daftar</a>
+            <a href="ishchilar.html" class="sidebar-link"><i class="bi bi-people-fill me-2"></i>Ishchilar</a>
+        </nav>
     </aside>
 
     <!-- O'RTA VA PASTKI QISM -->
     <div class="page-wrapper">
         <main class="main-content">
-            
-            <!-- Xush kelibsiz sarlavhasi -->
-            <div class="top-description">
-                <h2>Xush kelibsiz!</h2>
+            <div class="container-fluid px-3 px-lg-4 py-4">
+
+                <!-- 2-ko'rsatkich: Matnlar dizayni -->
+                <div class="text-center pb-3 mb-4 border-bottom border-info border-opacity-25">
+                    <h1 class="display-5 fw-bold section-title mb-2">Xush kelibsiz!</h1>
+                    <p class="lead opacity-75 mb-3">Erkaklar, ayollar va bolalar ko'ylaklarini ishlab chiqarish boshqaruv paneli</p>
+
+                    <!-- 6-ko'rsatkich (Button Dropdown) va 8-ko'rsatkich (Popover) -->
+                    <div class="d-flex justify-content-center flex-wrap gap-2">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-danger dropdown-toggle fw-semibold px-3" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-file-earmark-pdf-fill me-1"></i> PDF Hisobotlar va Katalog
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-dark border-info">
+                                <li><a class="dropdown-item" href="assets/katalog.pdf" target="_blank"><i class="bi bi-book me-2 text-info"></i>Korxona katalogi (PDF)</a></li>
+                                <li><a class="dropdown-item" href="assets/sotuv_hisobot.pdf" target="_blank"><i class="bi bi-graph-up-arrow me-2 text-success"></i>Bugungi sotuv hisoboti (PDF)</a></li>
+                            </ul>
+                        </div>
+
+                        <button type="button" class="btn btn-outline-info fw-semibold px-3"
+                                data-bs-toggle="popover"
+                                data-bs-trigger="focus"
+                                data-bs-placement="bottom"
+                                data-bs-title="Tizim holati: Faol"
+                                data-bs-content="Barcha bo'limlar (Omborxona, Kassa, Sotuv va Buyurtmalar) real vaqt rejimida sinxronlashtirilgan.">
+                            <i class="bi bi-info-circle me-1"></i> Tizim haqida
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 9-ko'rsatkich: Bootstrap Panel (Card) — 3 ta Asosiy Statistika -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="card custom-card stat-card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="text-uppercase small fw-bold opacity-75 mb-0">Ombordagi ko'ylaklar</h6>
+                                    <i class="bi bi-box-seam fs-4 text-info"></i>
+                                </div>
+                                <div class="fs-3 fw-bold stat-value">1,250 dona</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card custom-card stat-card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="text-uppercase small fw-bold opacity-75 mb-0">Bugungi savdo</h6>
+                                    <i class="bi bi-cash-coin fs-4 text-success"></i>
+                                </div>
+                                <div class="fs-3 fw-bold stat-value">12,500,000 so'm</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card custom-card stat-card h-100" data-bs-toggle="tooltip" data-bs-placement="top" title="Markaziy bank joriy kursi asosida">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="text-uppercase small fw-bold opacity-75 mb-0">Joriy valyuta kursi</h6>
+                                    <i class="bi bi-currency-dollar fs-4 text-warning"></i>
+                                </div>
+                                <div class="fs-3 fw-bold stat-value">$1 = 12,850 so'm</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10-ko'rsatkich: Bootstrap Slayder (Carousel) -->
+                <div class="mb-5">
+                    <h3 class="h4 fw-bold section-heading mb-3">
+                        <i class="bi bi-images me-2"></i>Yangi kolleksiya slayderi
+                    </h3>
+                    <div id="koylakSlider" class="carousel slide custom-carousel rounded-4 overflow-hidden shadow-lg" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#koylakSlider" data-bs-slide-to="0" class="active"></button>
+                            <button type="button" data-bs-target="#koylakSlider" data-bs-slide-to="1"></button>
+                            <button type="button" data-bs-target="#koylakSlider" data-bs-slide-to="2"></button>
+                            <button type="button" data-bs-target="#koylakSlider" data-bs-slide-to="3"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="assets/rasm2.jpg" class="d-block w-100 slider-img" alt="Bayramona shoyi ko'ylak">
+                                <div class="carousel-caption bg-dark bg-opacity-75 rounded-3 p-2 p-md-3">
+                                    <h5 class="fw-bold text-info mb-1">Bayramona shoyi ko'ylak</h5>
+                                    <p class="small mb-0">Ayollar uchun yangi mavsum — 320 ta sotildi</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="assets/rasm5.jpg" class="d-block w-100 slider-img" alt="Office uslubidagi qora ko'ylak">
+                                <div class="carousel-caption bg-dark bg-opacity-75 rounded-3 p-2 p-md-3">
+                                    <h5 class="fw-bold text-info mb-1">Office uslubidagi qora ko'ylak</h5>
+                                    <p class="small mb-0">Zamonaviy klassik uslub — 285 ta sotildi</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="assets/rasm3.jpg" class="d-block w-100 slider-img" alt="Klassik erkaklar kostyum-shimi">
+                                <div class="carousel-caption bg-dark bg-opacity-75 rounded-3 p-2 p-md-3">
+                                    <h5 class="fw-bold text-info mb-1">Klassik erkaklar kostyum-shimi</h5>
+                                    <p class="small mb-0">Yuqori sifatli mato — 210 ta sotildi</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="assets/rasm1.jpg" class="d-block w-100 slider-img" alt="Bolalar yozgi paxta ko'ylagi">
+                                <div class="carousel-caption bg-dark bg-opacity-75 rounded-3 p-2 p-md-3">
+                                    <h5 class="fw-bold text-info mb-1">Bolalar yozgi paxta ko'ylagi</h5>
+                                    <p class="small mb-0">100% tabiiy paxta — 410 ta sotildi</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#koylakSlider" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#koylakSlider" data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 5-ko'rsatkich (Media) va 9-ko'rsatkich (Card): Haftalik eng ko'p sotilganlar -->
+                <div class="mb-5">
+                    <h3 class="h4 fw-bold section-heading mb-3">
+                        <i class="bi bi-fire text-danger me-2"></i>Haftada eng ko'p sotilgan ko'ylaklar va kiyimlar
+                    </h3>
+                    <div class="row g-4">
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card custom-card sale-card h-100">
+                                <img src="assets/rasm2.jpg" class="card-img-top img-fluid sale-img" alt="Ayollar shoyi ko'ylagi">
+                                <div class="card-body">
+                                    <span class="badge bg-danger mb-2">Ayollar uchun</span>
+                                    <h5 class="card-title fs-6 fw-bold">Bayramona shoyi ko'ylak</h5>
+                                    <p class="card-text text-success fw-bold small mb-0"><i class="bi bi-fire me-1"></i>320 ta sotildi</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card custom-card sale-card h-100">
+                                <img src="assets/rasm5.jpg" class="card-img-top img-fluid sale-img" alt="Ayollar office ko'ylagi">
+                                <div class="card-body">
+                                    <span class="badge bg-danger mb-2">Ayollar uchun</span>
+                                    <h5 class="card-title fs-6 fw-bold">Office uslubidagi qora ko'ylak</h5>
+                                    <p class="card-text text-success fw-bold small mb-0"><i class="bi bi-fire me-1"></i>285 ta sotildi</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card custom-card sale-card h-100">
+                                <img src="assets/rasm3.jpg" class="card-img-top img-fluid sale-img" alt="Erkaklar kostyum-shim">
+                                <div class="card-body">
+                                    <span class="badge bg-primary mb-2">Erkaklar uchun</span>
+                                    <h5 class="card-title fs-6 fw-bold">Klassik erkaklar kostyum-shimi</h5>
+                                    <p class="card-text text-success fw-bold small mb-0"><i class="bi bi-fire me-1"></i>210 ta sotildi</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card custom-card sale-card h-100">
+                                <img src="assets/rasm1.jpg" class="card-img-top img-fluid sale-img" alt="Bolalar yozgi ko'ylagi">
+                                <div class="card-body">
+                                    <span class="badge bg-success mb-2">Bolalar uchun</span>
+                                    <h5 class="card-title fs-6 fw-bold">Bolalar yozgi paxta ko'ylagi</h5>
+                                    <p class="card-text text-success fw-bold small mb-0"><i class="bi bi-fire me-1"></i>410 ta sotildi</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5-ko'rsatkich: Media (Video) Bootstrap Ratio komponenti bilan -->
+                <div class="card custom-card p-2 mb-5">
+                    <div class="ratio ratio-16x9 rounded overflow-hidden">
+                        <video autoplay loop muted playsinline class="object-fit-cover">
+                            <source src="assets/korxona.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+
+                <!-- 9-ko'rsatkich (Card) va Progress bar: Tikuv sexlari rejasi -->
+                <div class="card custom-card mb-5">
+                    <div class="card-header bg-transparent border-bottom border-info border-opacity-25">
+                        <h4 class="h5 fw-bold section-heading mb-0">
+                            <i class="bi bi-bar-chart-steps me-2"></i>Tikuv sexlarining kunlik reja bajarilishi
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between fw-semibold small mb-1">
+                                <span>Bolalar ko'ylagi tikuv sexi</span>
+                                <span class="text-success" data-bs-toggle="tooltip" title="Kunlik reja: 500 dona">85% bajarildi</span>
+                            </div>
+                            <div class="progress" style="height: 14px;">
+                                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between fw-semibold small mb-1">
+                                <span>Erkaklar va ayollar ko'ylagi tikuv sexi</span>
+                                <span class="text-info" data-bs-toggle="tooltip" title="Kunlik reja: 350 dona">70% bajarildi</span>
+                            </div>
+                            <div class="progress" style="height: 14px;">
+                                <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" style="width: 70%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3-ko'rsatkich: Bootstrap Jadval (Table) -->
+                <div class="card custom-card mb-5">
+                    <div class="card-header bg-transparent border-bottom border-info border-opacity-25">
+                        <h4 class="h5 fw-bold section-heading mb-0">
+                            <i class="bi bi-table me-2"></i>So'nggi kelib tushgan buyurtmalar va holat
+                        </h4>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0 custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Buyurtma / Bo'lim</th>
+                                        <th>Mahsulot turi</th>
+                                        <th>Miqdori</th>
+                                        <th>Umumiy summa</th>
+                                        <th>Holati</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-semibold">Samarqand Markaziy savdo</td>
+                                        <td>Bolalar ko'ylagi (Yozgi)</td>
+                                        <td>150 dona</td>
+                                        <td class="fw-bold">9,000,000 so'm</td>
+                                        <td><span class="badge bg-success rounded-pill px-3">Yetkazildi</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-semibold">Urgut ulgurji bozori</td>
+                                        <td>Ayollar ko'ylagi (Ipak)</td>
+                                        <td>80 dona</td>
+                                        <td class="fw-bold">11,200,000 so'm</td>
+                                        <td><span class="badge bg-primary rounded-pill px-3">Qadoqlanmoqda</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-semibold">Toshkent filiali buyurtmasi</td>
+                                        <td>Erkaklar klassik ko'ylagi</td>
+                                        <td>200 dona</td>
+                                        <td class="fw-bold">14,000,000 so'm</td>
+                                        <td><span class="badge bg-warning text-dark rounded-pill px-3">Tikilmoqda</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5-ko'rsatkich: Audio va PDF fayllar bloki -->
+                <div class="row g-4 mb-5">
+                    <div class="col-md-6">
+                        <div class="card custom-card h-100">
+                            <div class="card-body d-flex flex-column justify-content-center">
+                                <h5 class="fw-bold section-heading mb-3">
+                                    <i class="bi bi-volume-up-fill me-2"></i>Korxona haqida audio ma'lumot
+                                </h5>
+                                <audio controls class="w-100">
+                                    <source src="assets/malumot.mp3" type="audio/mpeg">
+                                    Brauzeringiz audio tegini qo'llab-quvvatlamaydi.
+                                </audio>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card custom-card h-100">
+                            <div class="card-body d-flex flex-column justify-content-center">
+                                <h5 class="fw-bold section-heading mb-3">
+                                    <i class="bi bi-file-earmark-text-fill me-2"></i>Ma'lumotnoma va tizim strukturasi (PDF)
+                                </h5>
+                                <a href="assets/katalog.pdf" target="_blank" class="btn btn-danger fw-bold py-2">
+                                    <i class="bi bi-download me-2"></i>Katalogni ochish / Yuklab olish (PDF)
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3-ko'rsatkich: Bootstrap Ro'yxat (List Group) + Qo'shimcha statistika -->
+                <div class="card custom-card mb-5">
+                    <div class="card-body">
+                        <h4 class="h5 fw-bold section-heading mb-3">
+                            <i class="bi bi-check2-circle me-2"></i>Tizimning asosiy qulayliklari
+                        </h4>
+                        <ul class="list-group list-group-flush mb-4 custom-list-group">
+                            <li class="list-group-item bg-transparent"><i class="bi bi-check-circle-fill text-info me-2"></i>Mato va tayyor ko'ylak mahsulotlarini omborda aniq nazorat qilish</li>
+                            <li class="list-group-item bg-transparent"><i class="bi bi-check-circle-fill text-info me-2"></i>Ulgurji va chakana savdo jarayonlarini tezkor boshqarish</li>
+                            <li class="list-group-item bg-transparent"><i class="bi bi-check-circle-fill text-info me-2"></i>Kassa tushumlari va valyuta kurslarini avtomatik hisoblash</li>
+                            <li class="list-group-item bg-transparent"><i class="bi bi-check-circle-fill text-info me-2"></i>Ishchilarning ish haqi va ma'lumotlarini tartibli yuritish</li>
+                        </ul>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <div class="card custom-card stat-card">
+                                    <div class="card-body">
+                                        <h6 class="small text-uppercase opacity-75"><i class="bi bi-cart-check text-info me-1"></i>Jami Sotilgan Mahsulotlar</h6>
+                                        <div class="fs-4 fw-bold stat-value">1,420 dona</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card custom-card stat-card">
+                                    <div class="card-body">
+                                        <h6 class="small text-uppercase opacity-75"><i class="bi bi-wallet2 text-success me-1"></i>Bugungi Umumiy Tushum</h6>
+                                        <div class="fs-4 fw-bold stat-value">18,900,000 so'm</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="assets/sotuv_hisobot.pdf" target="_blank" class="btn btn-danger fw-bold px-4 py-2">
+                            <i class="bi bi-file-earmark-bar-graph me-2"></i>Bugungi xaridlar va sotuvlar hisoboti (PDF)
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Yandex Xarita -->
+                <div class="card custom-card mb-4">
+                    <div class="card-body text-center">
+                        <h4 class="h5 fw-bold section-heading mb-3">
+                            <i class="bi bi-geo-alt-fill text-danger me-2"></i>Korxonamiz Manzili (Urgut Iqtisodiy Zona Direksiyasi)
+                        </h4>
+                        <div class="ratio ratio-21x9 rounded overflow-hidden border border-info" style="min-height: 320px;">
+                            <iframe src="https://yandex.uz/map-widget/v1/?orgId=206223006365" allowfullscreen="true"></iframe>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-
-            <!-- 3 ta Asosiy Statistika Kartochkasi (Faol ishchilar olib tashlandi) -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h4>📦 Ombordagi ko'ylaklar</h4>
-                    <div class="stat-value">1,250 dona</div>
-                </div>
-                <div class="stat-card">
-                    <h4>💰 Bugungi savdo</h4>
-                    <div class="stat-value">12,500,000 so'm</div>
-                </div>
-                <div class="stat-card">
-                    <h4>💵 Joriy valyuta kursi</h4>
-                    <div class="stat-value">$1 = 12,850 so'm</div>
-                </div>
-            </div>
-
-            <!-- HAFTALIK ENG KO'P SOTILGAN 4 TA KIYIM KARTALARI (2 ta ayol, 1 ta erkak, 1 ta bola) -->
-            <div class="top-sales-section">
-                <h3>Haftada eng ko'p sotilgan ko'ylaklar va kiyimlar</h3>
-                <div class="sales-grid">
-                    
-                    <!-- 1-karta (Ayollar uchun) -->
-                    <div class="sale-card">
-                        <div class="sale-img-box">
-                            <img src="assets/rasm2.jpg" alt="Ayollar shoyi ko'ylagi">
-                        </div>
-                        <div class="sale-card-content">
-                            <span class="sale-badge">Ayollar uchun</span>
-                            <h4 class="sale-title">Bayramona shoyi ko'ylak</h4>
-                            <p class="sale-count">🔥 320 ta sotildi</p>
-                        </div>
-                    </div>
-
-                    <!-- 2-karta (Ayollar uchun) -->
-                    <div class="sale-card">
-                        <div class="sale-img-box">
-                            <img src="assets/rasm5.jpg" alt="Ayollar office ko'ylagi">
-                        </div>
-                        <div class="sale-card-content">
-                            <span class="sale-badge">Ayollar uchun</span>
-                            <h4 class="sale-title">Office uslubidagi qora ko'ylak</h4>
-                            <p class="sale-count">🔥 285 ta sotildi</p>
-                        </div>
-                    </div>
-
-                    <!-- 3-karta (Erkaklar uchun) -->
-                    <div class="sale-card">
-                        <div class="sale-img-box">
-                            <img src="assets/rasm3.jpg" alt="Erkaklar kostyum-shim">
-                        </div>
-                        <div class="sale-card-content">
-                            <span class="sale-badge" style="background: #0072ff;">Erkaklar uchun</span>
-                            <h4 class="sale-title">Klassik erkaklar kostyum-shimi</h4>
-                            <p class="sale-count">🔥 210 ta sotildi</p>
-                        </div>
-                    </div>
-
-                    <!-- 4-karta (Bolalar uchun) -->
-                    <div class="sale-card">
-                        <div class="sale-img-box">
-                            <img src="assets/rasm1.jpg" alt="Bolalar yozgi ko'ylagi">
-                        </div>
-                        <div class="sale-card-content">
-                            <span class="sale-badge" style="background: #38ef7d;">Bolalar uchun</span>
-                            <h4 class="sale-title">Bolalar yozgi paxta ko'ylagi</h4>
-                            <p class="sale-count">🔥 410 ta sotildi</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Katta Video -->
-            <div class="video-container">
-                <video autoplay loop muted playsinline>
-                    <source src="assets/korxona.mp4" type="video/mp4">
-                </video>
-            </div>
-
-            <!-- Tikuv sexlari kunlik reja ko'rsatkichi -->
-            <div class="progress-section">
-                <h3>Tikuv sexlarining kunlik reja bajarilishi</h3>
-                
-                <div class="progress-item">
-                    <div class="progress-label">
-                        <span>Bolalar ko'ylagi tikuv sexi</span>
-                        <span>85% bajarildi</span>
-                    </div>
-                    <div class="progress-bg">
-                        <div class="progress-fill-green"></div>
-                    </div>
-                </div>
-
-                <div class="progress-item">
-                    <div class="progress-label">
-                        <span>Ayollar (kattalar) ko'ylagi tikuv sexi</span>
-                        <span>70% bajarildi</span>
-                    </div>
-                    <div class="progress-bg">
-                        <div class="progress-fill-blue"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Buyurtmalar va Ko'rsatkichlar jadvali -->
-            <div class="table-section">
-                <h3>So'nggi kelib tushgan buyurtmalar va holat</h3>
-                <table>
-                    <tr>
-                        <th>Buyurtma / Bo'lim</th>
-                        <th>Mahsulot turi</th>
-                        <th>Miqdori</th>
-                        <th>Umumiy summa</th>
-                        <th>Holati</th>
-                    </tr>
-                    <tr>
-                        <td>Samarqand Markaziy savdo</td>
-                        <td>Bolalar ko'ylagi (Yozgi)</td>
-                        <td>150 dona</td>
-                        <td>9,000,000 so'm</td>
-                        <td><span class="badge badge-green">Yetkazildi</span></td>
-                    </tr>
-                    <tr>
-                        <td>Urgut ulgurji bozori</td>
-                        <td>Ayollar ko'ylagi (Ipak)</td>
-                        <td>80 dona</td>
-                        <td>11,200,000 so'm</td>
-                        <td><span class="badge badge-blue">Qadoqlanmoqda</span></td>
-                    </tr>
-                    <tr>
-                        <td>Toshkent filiali buyurtmasi</td>
-                        <td>Bolalar maktab ko'ylagi</td>
-                        <td>200 dona</td>
-                        <td>14,000,000 so'm</td>
-                        <td><span class="badge badge-yellow">Tikilmoqda</span></td>
-                    </tr>
-                </table>
-            </div>
-
-            <!-- Audio va Tashqi PDF fayllar bloki -->
-            <div class="media-files-section">
-                <div class="file-box">
-                    <h3>🔊 Korxona haqida audio ma'lumot</h3>
-                    <audio controls>
-                        <source src="assets/malumot.mp3" type="audio/mpeg">
-                        Brauzeringiz audio tegini qo'llab-quvvatlamaydi.
-                    </audio>
-                </div>
-
-                <div class="file-box">
-                    <h3>📄 Korxona to'g'risida ma'lumotnoma va tizim strukturasi (PDF)</h3>
-                    <a href="assets/katalog.pdf" target="_blank" class="pdf-btn">📥 Katalogni ochish / Yuklab olish (PDF)</a>
-                </div>
-            </div>
-
-            <!-- Bo'lim quyi tavsiflari -->
-            <div class="bottom-description">
-                <h3>Tizimning asosiy qulayliklari:</h3>
-                <ul>
-                    <li>Mato va tayyor ko'ylak mahsulotlarini omborda aniq nazorat qilish</li>
-                    <li>Ulgurji va chakana savdo jarayonlarini tezkor boshqarish</li>
-                    <li>Kassa tushumlari va valyuta kurslarini avtomatik hisoblash</li>
-                    <li>Ishchilarning ish haqi va ma'lumotlarini tartibli yuritish</li>
-                </ul>
-
-                <!-- Qisqartirilgan 2 ta karta va PDF hisobot tugmasi qo'shilgan joyi -->
-                <div class="dash-extra-section">
-                    <div class="stats-grid" style="margin-bottom: 0;">
-                        <div class="stat-card">
-                            <h4>🛒 Jami Sotilgan Mahsulotlar</h4>
-                            <div class="stat-value">1,420 dona</div>
-                        </div>
-                        <div class="stat-card">
-                            <h4>💰 Bugungi Umumiy Tushum</h4>
-                            <div class="stat-value">18,900,000 so'm</div>
-                        </div>
-                    </div>
-                    <div>
-                        <a href="assets/sotuv_hisobot.pdf" target="_blank" class="pdf-report-btn">📥 Bugungi xaridlar va sotuvlar hisoboti (PDF)</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- YANDEX KARTA (ENG PASTDA) -->
-            <div class="yandex-map-section">
-                <h3>📍 Korxonamiz Manzili (Urgut Iqtisodiy Zona Direksiyasi)</h3>
-                <div class="yandex-map-container">
-                    <iframe src="https://yandex.uz/map-widget/v1/?orgId=206223006365" allowfullscreen="true"></iframe>
-                </div>
-            </div>
-
         </main>
 
-        <!-- PROFESSIONAL FOOTER VA NEON IKONCHALAR -->
-        <footer>
-            <div class="footer-container">
-                <!-- 1-Ustun: Korxona haqida -->
-                <div class="footer-col">
-                    <h3>"Urgutni ko'ylaklari"</h3>
-                    <p>Bolalar va kattalar ayollar uchun eng sifatli, zamonaviy va qulay ko'ylaklarni ishlab chiqarish hamda hududlar bo'ylab yetkazib berish korxonasi.</p>
+        <!-- NOODATIY FUTURISTIK NEON FOOTER -->
+        <footer class="ultra-footer position-relative mt-5 pt-5 pb-4">
+            <!-- Tepasidagi yuguruvchi neon chiziq -->
+            <div class="footer-neon-line"></div>
+
+            <!-- Markazdagi "Yuqoriga qaytish" suzuvchi tugmasi -->
+            <a href="#" class="back-to-top-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Sahifa boshiga qaytish">
+                <i class="bi bi-arrow-up-short fs-3"></i>
+            </a>
+
+            <div class="container-fluid px-3 px-lg-5 position-relative" style="z-index: 2;">
+                
+                <!-- Yuqori qism: 3 ta Glassmorphism Bento-karta -->
+                <div class="row g-4 mb-4">
+                    
+                    <!-- 1-Karta: Brend va jonli holat -->
+                    <div class="col-lg-4">
+                        <div class="footer-glass-card h-100 p-4 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="d-flex align-items-center gap-3 mb-3">
+                                    <div class="logo-wrapper">
+                                        <img src="assets/logo.png" alt="Logotip" class="logo-img">
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold mb-0 footer-brand-title">"Urgutning ko'ylaklari"</h5>
+                                        <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 rounded-pill mt-1">
+                                            ERP Tizim v2.0
+                                        </span>
+                                    </div>
+                                </div>
+                                <p class="small text-light text-opacity-75 mb-4">
+                                    Erkaklar, ayollar va bolalar uchun eng sifatli, zamonaviy va qulay ko'ylaklarni ishlab chiqarish hamda hududlar bo'ylab yetkazib berish korxonasi.
+                                </p>
+                            </div>
+
+                            <!-- Jonli (Pulsing) tizim holati -->
+                            <div class="live-status-pill d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill align-self-start">
+                                <span class="pulse-dot"></span>
+                                <span class="small fw-semibold text-success">Tizim holati: Faol (Online)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2-Karta: Tezkor bo'limlar -->
+                    <div class="col-lg-4">
+                        <div class="footer-glass-card h-100 p-4">
+                            <h6 class="text-uppercase fw-bold text-info mb-3">
+                                <i class="bi bi-lightning-charge-fill me-2"></i>Tezkor bo'limlar
+                            </h6>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <a href="dashboard.html" class="footer-chip-link"><i class="bi bi-house-door me-2"></i>Bosh sahifa</a>
+                                </div>
+                                <div class="col-6">
+                                    <a href="omborxona.html" class="footer-chip-link"><i class="bi bi-box-seam me-2"></i>Omborxona</a>
+                                </div>
+                                <div class="col-6">
+                                    <a href="sotuv.html" class="footer-chip-link"><i class="bi bi-cart-check me-2"></i>Sotuv bo'limi</a>
+                                </div>
+                                <div class="col-6">
+                                    <a href="kassa.html" class="footer-chip-link"><i class="bi bi-wallet2 me-2"></i>Kassa</a>
+                                </div>
+                                <div class="col-6">
+                                    <a href="buyurtmalar.html" class="footer-chip-link"><i class="bi bi-clipboard-check me-2"></i>Buyurtmalar</a>
+                                </div>
+                                <div class="col-6">
+                                    <a href="qarz_daftar.html" class="footer-chip-link"><i class="bi bi-journal-text me-2"></i>Qarz daftar</a>
+                                </div>
+                                <div class="col-12">
+                                    <a href="ishchilar.html" class="footer-chip-link"><i class="bi bi-people me-2"></i>Xodimlar bo'limi</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3-Karta: Bog'lanish va Neon ijtimoiy tarmoqlar -->
+                    <div class="col-lg-4">
+                        <div class="footer-glass-card h-100 p-4 d-flex flex-column justify-content-between">
+                            <div>
+                                <h6 class="text-uppercase fw-bold text-info mb-3">
+                                    <i class="bi bi-headset me-2"></i>Aloqa markazi
+                                </h6>
+                                <ul class="list-unstyled d-flex flex-column gap-2 small mb-4">
+                                    <li class="d-flex align-items-center gap-2 text-light text-opacity-75">
+                                        <i class="bi bi-geo-alt-fill text-danger fs-6"></i>
+                                        <span>Urgut iqtisodiy zonasi, Samarqand</span>
+                                    </li>
+                                    <li class="d-flex align-items-center gap-2">
+                                        <i class="bi bi-telephone-fill text-success fs-6"></i>
+                                        <a href="tel:+998942661379" class="text-light text-decoration-none hover-cyan">+998 94 266 13 79</a>
+                                    </li>
+                                    <li class="d-flex align-items-center gap-2">
+                                        <i class="bi bi-envelope-fill text-info fs-6"></i>
+                                        <a href="mailto:xalimovazizjon31@gmail.com" class="text-light text-decoration-none hover-cyan">xalimovazizjon31@gmail.com</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Neon Ijtimoiy Tarmoqlar paneli -->
+                            <div class="d-flex align-items-center gap-2">
+                                <a href="https://t.me/KXalimov_Azizjon" target="_blank" class="social-neon-btn telegram" data-bs-toggle="tooltip" title="Telegram: @KXalimov_Azizjon">
+                                    <i class="bi bi-telegram fs-5"></i>
+                                </a>
+                                <a href="https://www.instagram.com/xalimovazizjon31/" target="_blank" class="social-neon-btn instagram" data-bs-toggle="tooltip" title="Instagram: @xalimovazizjon31">
+                                    <i class="bi bi-instagram fs-5"></i>
+                                </a>
+                                <a href="tel:+998942661379" class="social-neon-btn phone" data-bs-toggle="tooltip" title="Qo'ng'iroq qilish">
+                                    <i class="bi bi-telephone-outbound-fill fs-5"></i>
+                                </a>
+                                <a href="mailto:xalimovazizjon31@gmail.com" class="social-neon-btn email" data-bs-toggle="tooltip" title="Email yuborish">
+                                    <i class="bi bi-envelope-at-fill fs-5"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
-                <!-- 2-Ustun: Tezkor havolalar -->
-                <div class="footer-col">
-                    <h3>Tezkor havolalar</h3>
-                    <ul>
-                        <li><a href="dashboard.html">🏠 Bosh sahifa</a></li>
-                        <li><a href="omborxona.html">📦 Omborxona</a></li>
-                        <li><a href="sotuv.html">🛒 Sotuv bo'limi</a></li>
-                        <li><a href="kassa.html">💰 Kassa va Moliya</a></li>
-                        <li><a href="buyurtmalar.html">📋 Buyurtmalar</a></li>
-                        <li><a href="qarz_daftar.html">📒 Qarz daftar</a></li>
-                        <li><a href="ishchilar.html">👷 Xodimlar bo'limi</a></li>
-                    </ul>
-                </div>
-
-                <!-- 3-Ustun: Bog'lanish -->
-                <div class="footer-col">
-                    <h3>Bog'lanish</h3>
-                    <div class="neon-links">
-                        <!-- Email -->
-                        <a href="mailto:xalimovazizjon31@gmail.com" class="neon-item">
-                            <div class="neon-icon-box">
-                                <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                            </div>
-                            <span>xalimovazizjon31@gmail.com</span>
-                        </a>
-
-                        <!-- Telefon -->
-                        <a href="tel:+998942661379" class="neon-item">
-                            <div class="neon-icon-box">
-                                <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                            </div>
-                            <span>+998 94 266 13 79</span>
-                        </a>
-
-                        <!-- Telegram -->
-                        <a href="https://t.me/KXalimov_Azizjon" target="_blank" class="neon-item">
-                            <div class="neon-icon-box">
-                                <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                            </div>
-                            <span>@KXalimov_Azizjon</span>
-                        </a>
-
-                        <!-- Instagram -->
-                        <a href="https://www.instagram.com/xalimovazizjon31/" target="_blank" class="neon-item">
-                            <div class="neon-icon-box">
-                                <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                            </div>
-                            <span>@xalimovazizjon31</span>
-                        </a>
-
-                        <!-- Manzil -->
-                        <a href="#" class="neon-item">
-                            <div class="neon-icon-box">
-                                <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                            </div>
-                            <span>Urgut iqtisodiy zonasi, Samarqand</span>
-                        </a>
+                <!-- Pastki mualliflik chizig'i -->
+                <div class="footer-bottom-bar rounded-4 px-4 py-3 d-flex flex-wrap justify-content-between align-items-center gap-2 small">
+                    <div class="text-light text-opacity-75">
+                        &copy; 2026 <strong class="text-white">"Urgutning ko'ylaklari"</strong> korxonasi. Barcha huquqlar himoyalangan.
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="text-light text-opacity-75">Ishlab chiquvchi:</span>
+                        <span class="dev-badge px-3 py-1 rounded-pill fw-bold">
+                            <i class="bi bi-code-slash me-1"></i>Xalimov Azizjon | Urgut
+                        </span>
                     </div>
                 </div>
-            </div>
 
-            <!-- Pastki holat satri va muallif -->
-            <div class="footer-bottom">
-                <div>
-                    <span class="footer-status">● Tizim holati: Faol (Online)</span>
-                </div>
-                <div>
-                    &copy; 2026 "Urgutni ko'ylaklari" korxonasi. Barcha huquqlar himoyalangan.
-                </div>
-                <div>
-                    <strong>Dasturchi:</strong> Xalimov Azizjon | Urgut
-                </div>
             </div>
         </footer>
     </div>
 
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Tooltiplarni faollashtirish
+        [...document.querySelectorAll('[data-bs-toggle="tooltip"]')].map(el => new bootstrap.Tooltip(el));
+
+        // Popoverlarni faollashtirish
+        [...document.querySelectorAll('[data-bs-toggle="popover"]')].map(el => new bootstrap.Popover(el));
+
+        // Chap Sidebarni yopish/ochish
+        const menuToggleBtn = document.getElementById('menuToggleBtn');
+        menuToggleBtn.addEventListener('click', () => {
+            if (window.innerWidth >= 992) {
+                document.body.classList.toggle('sidebar-collapsed');
+            } else {
+                document.body.classList.toggle('sidebar-open');
+            }
+        });
+
+        // Tonggi / Tungi rejimni almashtirish
+        const themeBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            themeIcon.className = isLight ? 'bi bi-moon-stars-fill me-1' : 'bi bi-sun-fill me-1';
+            themeText.textContent = isLight ? 'Tungi rejim' : 'Tonggi rejim';
+        });
+    </script>
 </body>
 </html>
